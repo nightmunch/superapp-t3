@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { useState } from "react";
 import { categories, months, separator } from "../../helpers/helpers";
 import MoneyTrackLayout from "../../layouts/MoneyTrackLayout";
-import type { dataProps } from "../../components/moneytrack/Doughnut";
+import type { DataProps } from "../../components/moneytrack/Doughnut";
 import { Doughnut } from "../../components/moneytrack/Doughnut";
 import { trpc } from "../../utils/trpc";
 import { RiEmotionSadLine } from "react-icons/ri";
@@ -42,7 +42,7 @@ const MoneyTrack: NextPage = () => {
                 <h1 className="text-center">
                   Transaction Summary {months[selectedMonth - 1]} 2022
                 </h1>
-                <Doughnut data={summaries.data as dataProps[]} />
+                <Doughnut data={summaries.data as DataProps[]} />
                 <SummaryTable
                   data={summaries.data}
                   selectedMonth={selectedMonth}
@@ -75,7 +75,7 @@ const SummaryTable = ({
   data,
   selectedMonth,
 }: {
-  data: dataProps[];
+  data: DataProps[];
   selectedMonth: number;
 }) => {
   const { data: totalQuery } = trpc.transactions.totalspent.useQuery({

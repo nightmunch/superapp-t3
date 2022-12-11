@@ -4,7 +4,7 @@ import "chart.js/auto";
 import { Chart } from "react-chartjs-2";
 import { categories, shadeColor } from "../../helpers/helpers";
 
-export type dataProps = Prisma.PickArray<
+export type DataProps = Prisma.PickArray<
   Prisma.TransactionsGroupByOutputType,
   "category"[]
 > & {
@@ -13,7 +13,7 @@ export type dataProps = Prisma.PickArray<
   };
 };
 
-export const Doughnut = ({ data }: { data: dataProps[] }) => {
+export const Doughnut = ({ data }: { data: DataProps[] }) => {
   const datas = data.map((data) => {
     return {
       category: data.category,

@@ -2,13 +2,13 @@ import type { IconType } from "react-icons";
 import { FaGrinSquint, FaHome, FaPiggyBank } from "react-icons/fa";
 import { TbToolsKitchen2 } from "react-icons/tb";
 
-export type linkProps = {
+export type LinkProps = {
   title: string;
   icon: IconType;
   href: string;
 };
 
-export const mainList: linkProps[] = [
+export const mainList: LinkProps[] = [
   {
     title: "Home",
     icon: FaHome,
@@ -21,7 +21,7 @@ export const mainList: linkProps[] = [
   },
 ];
 
-export const projectList: linkProps[] = [
+export const projectList: LinkProps[] = [
   {
     title: "Money Track",
     icon: FaPiggyBank,

@@ -12,7 +12,7 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 import { mainList, projectList } from "../data/drawer";
-import type { linkProps } from "../data/drawer";
+import type { LinkProps } from "../data/drawer";
 import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
@@ -79,7 +79,7 @@ const Navbar = () => {
           </button>
         ) : (
           <button
-            className="btn-outline btn-success btn"
+            className="btn-success btn-outline btn"
             onClick={() => signIn("auth0")}
           >
             <FaSignInAlt />
@@ -94,7 +94,12 @@ const Drawer = ({ children }: { children: ReactNode }) => {
   const [isOpen, setIsOpen] = useAtom(isOpenAtom);
   return (
     <div className="drawer">
-      <input type="checkbox" className="drawer-toggle" checked={isOpen} />
+      <input
+        type="checkbox"
+        className="drawer-toggle"
+        checked={isOpen}
+        readOnly
+      />
       <div className="drawer-content">{children}</div>
       <div className="drawer-side">
         <label
@@ -119,7 +124,7 @@ const Drawer = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const SidebarLink = ({ link }: { link: linkProps }) => {
+const SidebarLink = ({ link }: { link: LinkProps }) => {
   const { pathname } = useRouter();
   const [, setIsOpen] = useAtom(isOpenAtom);
   const handleSelected = ({ className }: { className: string }) => {

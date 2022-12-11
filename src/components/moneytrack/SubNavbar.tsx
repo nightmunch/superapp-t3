@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-type tabProps = {
+type TabProps = {
   name: string;
   href: string;
 };
 
-const tabList: tabProps[] = [
+const tabList: TabProps[] = [
   {
     name: "Main",
     href: "moneytrack",
@@ -39,7 +39,7 @@ export const SubNavbar = () => {
   );
 };
 
-const Tab = ({ tab, currentTab }: { tab: tabProps; currentTab: string }) => {
+const Tab = ({ tab, currentTab }: { tab: TabProps; currentTab: string }) => {
   return (
     <Link
       href={`/${tab.href}`}
