@@ -4,6 +4,7 @@ import type {
   Path,
   UseFormRegister,
   UseFormReturn,
+  UseFormSetValue,
 } from "react-hook-form";
 
 type FormProps<T, X> = {
@@ -25,6 +26,7 @@ export const Form = <
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useFormReturn;
 
@@ -41,6 +43,7 @@ export const Form = <
               value={value}
               errors={errors}
               register={register}
+              setValue={setValue}
             />
           </div>
         ))}
@@ -58,6 +61,7 @@ type InputProps<T> = {
   value: any;
   errors: Partial<FieldErrorsImpl<DeepRequired<{ [K in keyof T]: T[K] }>>>;
   register: UseFormRegister<{ [K in keyof T]: T[K] }>;
+  setValue: UseFormSetValue<{ [K in keyof T]: T[K] }>;
 };
 
 const Input = <T extends Record<string, unknown>>({
@@ -65,6 +69,7 @@ const Input = <T extends Record<string, unknown>>({
   value,
   errors,
   register,
+  setValue,
 }: InputProps<T>) => {
   type keyType = Path<{ [K in keyof T]: T[K] }>;
   return (
@@ -83,6 +88,7 @@ const Input = <T extends Record<string, unknown>>({
                   }`}
                   {...register(index as keyType)}
                 />
+                {setValue(index as keyType, value.currentValue)}
                 {errors[index]?.message ? (
                   <label className="label">
                     <span className="label-text-alt text-error">
@@ -107,6 +113,7 @@ const Input = <T extends Record<string, unknown>>({
                   }`}
                   {...register(index as keyType, { valueAsNumber: true })}
                 />
+                {setValue(index as keyType, value.currentValue)}
                 {errors[index]?.message ? (
                   <label className="label">
                     <span className="label-text-alt text-error">
@@ -133,6 +140,12 @@ const Input = <T extends Record<string, unknown>>({
                   }`}
                   {...register(index as keyType, { valueAsDate: true })}
                 />
+                {setValue(
+                  index as keyType,
+                  value.currentValue
+                    ? value.currentValue.toISOString().substring(0, 10)
+                    : value.placeholder.toISOString().substring(0, 10)
+                )}
                 {errors[index]?.message ? (
                   <label className="label">
                     <span className="label-text-alt text-error">
@@ -152,6 +165,7 @@ const Input = <T extends Record<string, unknown>>({
                   defaultValue={value.currentValue}
                   {...register(index as keyType)}
                 >
+                  {setValue(index as keyType, value.currentValue)}
                   <option disabled value={""}>
                     {value.placeholder}
                   </option>
