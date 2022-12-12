@@ -126,8 +126,6 @@ const Claim: NextPage = () => {
             }}
             submitButton="Update Claim"
             useFormReturn={useShowFormReturn}
-            showData={showClaims}
-            type="show"
           />
         </Modal>
         <Modal
@@ -152,7 +150,6 @@ const Claim: NextPage = () => {
             }}
             submitButton="Add Claim"
             useFormReturn={useAddFormReturn}
-            type="add"
           />
         </Modal>
         <Modal

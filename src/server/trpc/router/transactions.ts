@@ -113,6 +113,32 @@ export const transactionRouter = router({
     .mutation(async ({ ctx, input }) => {
       await ctx.prisma.transactions.create({ data: input });
     }),
+  update: publicProcedure
+    .input(
+      z.object({
+        id: z.string().cuid(),
+        item: z.string().min(1),
+        amount: z.number().positive(),
+        category: z.string().min(1),
+        remarks: z.string(),
+        date: z.date(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, item, amount, category, remarks, date } = input;
+      await ctx.prisma.transactions.update({
+        where: {
+          id,
+        },
+        data: {
+          item,
+          amount,
+          category,
+          date,
+          remarks,
+        },
+      });
+    }),
   delete: publicProcedure
     .input(
       z.object({

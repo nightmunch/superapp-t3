@@ -25,20 +25,29 @@ const Transactions: NextPage = () => {
     month: selectedMonth,
   });
 
+  const showTransactions = trpc.transactions.show.useQuery({
+    id: selectedID,
+  });
+
   const addTransactions = trpc.transactions.create.useMutation({
     onSuccess: () => {
       transactions.refetch();
+      showTransactions.refetch();
+    },
+  });
+
+  const updateTransactions = trpc.transactions.update.useMutation({
+    onSuccess: () => {
+      transactions.refetch();
+      showTransactions.refetch();
     },
   });
 
   const deleteTransactions = trpc.transactions.delete.useMutation({
     onSuccess: () => {
       transactions.refetch();
+      showTransactions.refetch();
     },
-  });
-
-  const showTransactions = trpc.transactions.show.useQuery({
-    id: selectedID,
   });
 
   const initialValues = {
@@ -159,14 +168,19 @@ const Transactions: NextPage = () => {
           <Form<typeof initialShowValues, formType>
             initialValues={initialShowValues}
             onSubmit={(data: formType) => {
-              useShowFormReturn.reset();
+              updateTransactions.mutateAsync({
+                id: selectedID,
+                item: data.expense,
+                amount: data.amount,
+                category: data.category,
+                remarks: data.remarks,
+                date: data.date,
+              });
               setHandleShowModal(false);
               toast.success("Transaction is successfully updated!");
             }}
             submitButton="Update Transaction"
             useFormReturn={useShowFormReturn}
-            showData={showTransactions}
-            type={"show"}
           />
         </Modal>
         <Modal
@@ -193,7 +207,6 @@ const Transactions: NextPage = () => {
             }}
             submitButton="Add Transaction"
             useFormReturn={useAddFormReturn}
-            type={"add"}
           />
         </Modal>
         <Modal

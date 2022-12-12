@@ -11,8 +11,6 @@ type FormProps<T, X> = {
   onSubmit: (values: { [K in keyof X]: X[K] }) => void;
   submitButton: string;
   useFormReturn: UseFormReturn<{ [K in keyof X]: X[K] }>;
-  showData?: any;
-  type: "show" | "add";
 };
 
 export const Form = <
@@ -23,8 +21,6 @@ export const Form = <
   onSubmit,
   submitButton,
   useFormReturn,
-  showData,
-  type,
 }: FormProps<T, X>) => {
   const {
     register,
@@ -32,32 +28,28 @@ export const Form = <
     formState: { errors },
   } = useFormReturn;
 
-  if ((showData?.data && type == "show") || type == "add") {
-    return (
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col gap-5">
-          {Object.entries(initialValues).map(([index, value]) => (
-            <div key={index} className="form-control">
-              <label className="label">
-                <span className="label-text capitalize">{index}</span>
-              </label>
-              <Input<X>
-                index={index}
-                value={value}
-                errors={errors}
-                register={register}
-              />
-            </div>
-          ))}
-          <button type="submit" className="btn-primary btn">
-            {submitButton}
-          </button>
-        </div>
-      </form>
-    );
-  } else {
-    return <></>;
-  }
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="flex flex-col gap-5">
+        {Object.entries(initialValues).map(([index, value]) => (
+          <div key={index} className="form-control">
+            <label className="label">
+              <span className="label-text capitalize">{index}</span>
+            </label>
+            <Input<X>
+              index={index}
+              value={value}
+              errors={errors}
+              register={register}
+            />
+          </div>
+        ))}
+        <button type="submit" className="btn-primary btn">
+          {submitButton}
+        </button>
+      </div>
+    </form>
+  );
 };
 
 type InputProps<T> = {
