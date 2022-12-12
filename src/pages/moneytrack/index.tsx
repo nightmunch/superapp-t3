@@ -11,7 +11,7 @@ const MoneyTrack: NextPage = () => {
   const currentMonth = new Date().getMonth() + 1;
   const [selectedMonth, setSelectedMonth] = useState<number>(currentMonth);
   const summaries = trpc.transactions.summarybymonth.useQuery({
-    userId: "cl5qwwyqp0021zwv8v0wm670x",
+    userId: "cl5qwgu6k0015zwv8jt19n94s",
     month: selectedMonth,
   });
   return (
@@ -79,7 +79,7 @@ const SummaryTable = ({
   selectedMonth: number;
 }) => {
   const { data: totalQuery } = trpc.transactions.totalspent.useQuery({
-    userId: "cl5qwwyqp0021zwv8v0wm670x",
+    userId: "cl5qwgu6k0015zwv8jt19n94s",
     month: selectedMonth,
   });
   const datas = data.map((data) => {

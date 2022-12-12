@@ -2,7 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-/* html {
-  background-image: radial-gradient(hsla(var(--bc)/.2) .5px,hsla(var(--b2)/1) .5px);
-  background-size: 5px 5px;
-} */
+::-webkit-scrollbar {
+  height: 3px;
+  width: 3px;
+  background: theme('colors.base-100');
+}
+
+::-webkit-scrollbar-thumb {
+  background: theme('colors.primary');
+  -webkit-border-radius: 1ex;
+  -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75);
+}
+
+::-webkit-scrollbar-corner {
+  background: theme('colors.base-100');
+}
+
+.hide-scroll::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}

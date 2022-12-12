@@ -1,41 +1,113 @@
 import type { NextPage } from "next/types";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
-import { BiErrorCircle } from "react-icons/bi";
-import { months } from "../../helpers/helpers";
+import { categories, months } from "../../helpers/helpers";
 import MoneyTrackLayout from "../../layouts/MoneyTrackLayout";
 import { Modal } from "../../components/Modal";
-
 import { Form } from "../../components/Form";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
+import { trpc } from "../../utils/trpc";
+import { Table } from "../../components/moneytrack/TransactionsTable";
 
 const Transactions: NextPage = () => {
   const currentMonth = new Date().getMonth() + 1;
-  const [, setSelectedMonth] = useState<number>(currentMonth);
+  const [selectedMonth, setSelectedMonth] = useState<number>(currentMonth);
+  const [selectedID, setSelectedID] = useState<string>("");
   const [handleAddModal, setHandleAddModal] = useState(false);
   const [handleDeleteModal, setHandleDeleteModal] = useState(false);
+  const [handleShowModal, setHandleShowModal] = useState(false);
+
+  const transactions = trpc.transactions.listbymonth.useQuery({
+    userId: "cl5qwgu6k0015zwv8jt19n94s",
+    month: selectedMonth,
+  });
+
+  const addTransactions = trpc.transactions.create.useMutation({
+    onSuccess: () => {
+      transactions.refetch();
+    },
+  });
+
+  const deleteTransactions = trpc.transactions.delete.useMutation({
+    onSuccess: () => {
+      transactions.refetch();
+    },
+  });
+
+  const showTransactions = trpc.transactions.show.useQuery({
+    id: selectedID,
+  });
 
   const initialValues = {
     expense: {
-      placeholder: "Example: Breakfast",
+      type: "text",
+      placeholder: "Mekdi",
+    },
+    amount: {
+      type: "number",
+      placeholder: "10.00",
+    },
+    category: {
+      type: "select",
+      placeholder: "Select Category",
+      options: categories,
     },
     remarks: {
-      placeholder: "Example: Noice Food",
+      type: "text",
+      placeholder: "Noice Food!",
+    },
+    date: {
+      type: "date",
+      placeholder: new Date(),
+    },
+  };
+
+  const initialShowValues = {
+    expense: {
+      type: "text",
+      placeholder: "Mekdi",
+      currentValue: showTransactions.data?.item,
+    },
+    amount: {
+      type: "number",
+      placeholder: "10.00",
+      currentValue: showTransactions.data?.amount,
+    },
+    category: {
+      type: "select",
+      placeholder: "Select Category",
+      currentValue: showTransactions.data?.category,
+      options: categories,
+    },
+    remarks: {
+      type: "text",
+      placeholder: "Noice Food!",
+      currentValue: showTransactions.data?.remarks,
+    },
+    date: {
+      type: "date",
+      placeholder: new Date(),
+      currentValue: showTransactions.data?.date,
     },
   };
 
   const formSchema = z.object({
-    expense: z
-      .string()
-      .min(1)
-      .regex(/^[\d]*\.?[\d]{0,2}$/),
+    expense: z.string().min(1),
+    amount: z.number().positive().min(1),
+    category: z.string().min(1),
     remarks: z.string().min(1),
+    date: z.date(),
   });
 
-  const useFormReturn = useForm<typeof initialValues>({
+  type formType = z.infer<typeof formSchema>;
+
+  const useAddFormReturn = useForm<formType>({
+    resolver: zodResolver(formSchema),
+  });
+  const useShowFormReturn = useForm<formType>({
     resolver: zodResolver(formSchema),
   });
 
@@ -64,64 +136,83 @@ const Transactions: NextPage = () => {
             <div className="tooltip" data-tip="Add Transaction">
               <button
                 className="btn-ghost btn"
-                onClick={() => setHandleDeleteModal(true)}
+                onClick={() => setHandleAddModal(true)}
               >
                 <FaPlus />
               </button>
             </div>
           </div>
-          <table className="table">
-            <thead>
-              <tr>
-                <td></td>
-                <td>Item</td>
-                <td>Amount</td>
-                <td>Date</td>
-                <td className="text-center">Action</td>
-              </tr>
-            </thead>
-          </table>
+          <Table
+            data={transactions.data}
+            setIsOpen={setHandleDeleteModal}
+            setIsShow={setHandleShowModal}
+            setSelectedID={setSelectedID}
+          />
         </div>
         <Modal
-          title="Add Transactions"
+          type="form"
+          title="Transaction"
+          isOpen={handleShowModal}
+          setIsOpen={setHandleShowModal}
+          haveCloseButton={true}
+        >
+          <Form<typeof initialShowValues, formType>
+            initialValues={initialShowValues}
+            onSubmit={(data: formType) => {
+              useShowFormReturn.reset();
+              setHandleAddModal(false);
+              toast.success("Transaction is successfully updated!");
+            }}
+            submitButton="Update Transaction"
+            useFormReturn={useShowFormReturn}
+          />
+        </Modal>
+        <Modal
+          type="form"
+          title="Add Transaction"
           isOpen={handleAddModal}
           setIsOpen={setHandleAddModal}
           haveCloseButton={true}
         >
-          <Form<typeof initialValues>
+          <Form<typeof initialValues, formType>
             initialValues={initialValues}
-            onSubmit={() => {
-              useFormReturn.reset();
-              toast.success("Transaction is successfully added!");
+            onSubmit={(data: formType) => {
+              addTransactions.mutateAsync({
+                userId: "cl5qwgu6k0015zwv8jt19n94s",
+                item: data.expense,
+                amount: data.amount,
+                category: data.category,
+                date: data.date,
+                remarks: data.remarks,
+              });
+              useAddFormReturn.reset();
               setHandleAddModal(false);
+              toast.success("Transaction is successfully added!");
             }}
-            submitButton="Add Transactions"
-            useFormReturn={useFormReturn}
+            submitButton="Add Transaction"
+            useFormReturn={useAddFormReturn}
           />
         </Modal>
         <Modal
+          type="confirmation"
+          title="Delete this transaction?"
+          description="Are you sure you want to delete this transaction?"
           isOpen={handleDeleteModal}
           setIsOpen={setHandleDeleteModal}
           haveCloseButton={false}
-        >
-          <div className="modal-action m-5 flex-col items-center gap-5">
-            <BiErrorCircle size={100} className="text-error" />
-            <h1 className="text-2xl text-error">Delete this transaction?</h1>
-            <span>Are you sure you want to delete this transaction?</span>
-            <button
-              className="btn-error btn"
-              onClick={() => {
-                toast.error("Transaction is successfully deleted!");
-                setHandleDeleteModal(false);
-              }}
-            >
-              Delete
-            </button>
-          </div>
-        </Modal>
+          onConfirm={() => {
+            if (selectedID) {
+              deleteTransactions.mutateAsync({ id: selectedID });
+              setSelectedID("");
+            }
+            setHandleDeleteModal(false);
+            toast.success("Transaction is successfully deleted!");
+          }}
+        />
         {/* TODO:
         [] Different type of Modal 
-          [] Form
+          [x] Form
+          [x] Confirmation (Warning)
           [] Confirmation
           [] Basic
         */}
