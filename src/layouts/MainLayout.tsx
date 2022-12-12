@@ -40,7 +40,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
       />
       <Drawer>
         <Navbar />
-        <div className="mx-auto flex w-11/12 flex-col gap-5 pt-5">
+        <div className="mx-auto flex min-h-screen w-11/12 flex-col gap-5 pt-5">
           {children}
           <Footer />
         </div>
@@ -55,7 +55,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useAtom(isOpenAtom);
   const { data: sessionData } = useSession();
   return (
-    <div className="navbar gap-2 bg-base-300">
+    <div className="navbar sticky top-0 z-10 gap-2 bg-base-300 shadow-sm">
       <div className="flex-none">
         <button
           className="btn-ghost btn-square btn"
@@ -158,7 +158,7 @@ const SidebarLink = ({ link }: { link: LinkProps }) => {
 
 const Footer = () => {
   return (
-    <footer className="footer mt-5 items-center bg-neutral p-4 text-neutral-content">
+    <footer className="footer mt-auto items-center bg-neutral p-4 text-neutral-content">
       <div className="grid-flow-col items-center">
         <FaHashtag size={36} />
         <p>Copyright © 2022 - All right reserved</p>
