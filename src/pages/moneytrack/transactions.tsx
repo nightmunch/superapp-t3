@@ -160,11 +160,12 @@ const Transactions: NextPage = () => {
             initialValues={initialShowValues}
             onSubmit={(data: formType) => {
               useShowFormReturn.reset();
-              setHandleAddModal(false);
+              setHandleShowModal(false);
               toast.success("Transaction is successfully updated!");
             }}
             submitButton="Update Transaction"
             useFormReturn={useShowFormReturn}
+            showData={showTransactions}
           />
         </Modal>
         <Modal
