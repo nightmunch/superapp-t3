@@ -166,6 +166,7 @@ const Transactions: NextPage = () => {
             submitButton="Update Transaction"
             useFormReturn={useShowFormReturn}
             showData={showTransactions}
+            type={"show"}
           />
         </Modal>
         <Modal
@@ -192,6 +193,7 @@ const Transactions: NextPage = () => {
             }}
             submitButton="Add Transaction"
             useFormReturn={useAddFormReturn}
+            type={"add"}
           />
         </Modal>
         <Modal

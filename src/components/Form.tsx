@@ -12,6 +12,7 @@ type FormProps<T, X> = {
   submitButton: string;
   useFormReturn: UseFormReturn<{ [K in keyof X]: X[K] }>;
   showData?: any;
+  type: "show" | "add";
 };
 
 export const Form = <
@@ -23,6 +24,7 @@ export const Form = <
   submitButton,
   useFormReturn,
   showData,
+  type,
 }: FormProps<T, X>) => {
   const {
     register,
@@ -30,7 +32,7 @@ export const Form = <
     formState: { errors },
   } = useFormReturn;
 
-  if (showData) {
+  if ((showData?.data && type == "show") || type == "add") {
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-5">
@@ -155,8 +157,7 @@ const Input = <T extends Record<string, unknown>>({
               <>
                 <select
                   className="input-wd select-bordered select w-full"
-                  defaultValue={""}
-                  value={value.currentValue}
+                  defaultValue={value.currentValue}
                   {...register(index as keyType)}
                 >
                   <option disabled value={""}>
