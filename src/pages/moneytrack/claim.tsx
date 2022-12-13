@@ -30,6 +30,12 @@ const Claim: NextPage = () => {
     },
   });
 
+  const updateClaims = trpc.claim.update.useMutation({
+    onSuccess: () => {
+      claims.refetch();
+    },
+  });
+
   const deleteClaims = trpc.claim.delete.useMutation({
     onSuccess: () => {
       claims.refetch();
@@ -119,7 +125,12 @@ const Claim: NextPage = () => {
           <Form<typeof initialShowValues, formType>
             initialValues={initialShowValues}
             onSubmit={(data: formType) => {
-              console.log(data);
+              updateClaims.mutateAsync({
+                id: selectedID,
+                item: data.item,
+                amount: data.amount,
+                date: data.date,
+              });
               useShowFormReturn.reset();
               setHandleShowModal(false);
               toast.success("Claim is successfully updated!");
@@ -201,7 +212,7 @@ const Table = ({
         </thead>
         <tbody ref={parentTBody}>
           {data?.map((item, index) => (
-            <tr key={index}>
+            <tr key={item.id}>
               <td>{index + 1}</td>
               <td>
                 <div

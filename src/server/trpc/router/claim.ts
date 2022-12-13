@@ -47,6 +47,28 @@ export const claimRouter = router({
     .mutation(async ({ ctx, input }) => {
       await ctx.prisma.claim.create({ data: input });
     }),
+  update: publicProcedure
+    .input(
+      z.object({
+        id: z.string().cuid().optional(),
+        item: z.string().min(1),
+        amount: z.number().positive(),
+        date: z.date(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, item, amount, date } = input;
+      await ctx.prisma.claim.update({
+        where: {
+          id,
+        },
+        data: {
+          item,
+          amount,
+          date,
+        },
+      });
+    }),
   delete: publicProcedure
     .input(
       z.object({
