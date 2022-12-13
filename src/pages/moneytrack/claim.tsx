@@ -218,37 +218,51 @@ const Table = ({
           </tr>
         </thead>
         <tbody ref={parentTBody}>
-          {data?.map((item, index) => (
-            <tr key={item.id}>
-              <td>{index + 1}</td>
-              <td>
-                <div
-                  className="flex flex-col"
-                  onClick={() => {
-                    setSelectedID(item.id);
-                    setIsShow(true);
-                  }}
-                >
-                  <div className="pb-1">{item.item}</div>
-                </div>
-              </td>
-              <td>RM {separator(item.amount.toFixed(2))}</td>
-              <td>{formatDate(item.date)}</td>
-              <td className="text-center">
-                <div className="tooltip" data-tip="Delete Claim">
-                  <button
-                    className="btn-ghost btn"
-                    onClick={() => {
-                      setSelectedID(item.id);
-                      setIsOpen(true);
-                    }}
-                  >
-                    <FaTrash />
-                  </button>
-                </div>
+          {data?.length === 0 ? (
+            <tr>
+              <td colSpan={5} className="text-center">
+                <small>
+                  Press{" "}
+                  <kbd className="kbd">
+                    <FaPlus />
+                  </kbd>{" "}
+                  to add one.
+                </small>
               </td>
             </tr>
-          ))}
+          ) : (
+            data?.map((item, index) => (
+              <tr key={item.id}>
+                <td>{index + 1}</td>
+                <td>
+                  <div
+                    className="flex flex-col"
+                    onClick={() => {
+                      setSelectedID(item.id);
+                      setIsShow(true);
+                    }}
+                  >
+                    <div className="pb-1">{item.item}</div>
+                  </div>
+                </td>
+                <td>RM {separator(item.amount.toFixed(2))}</td>
+                <td>{formatDate(item.date)}</td>
+                <td className="text-center">
+                  <div className="tooltip" data-tip="Delete Claim">
+                    <button
+                      className="btn-ghost btn"
+                      onClick={() => {
+                        setSelectedID(item.id);
+                        setIsOpen(true);
+                      }}
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))
+          )}
           {sum ? (
             <tr>
               <th></th>
