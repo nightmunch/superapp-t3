@@ -29,7 +29,6 @@ const ChefBurp: NextPage = () => {
   }, [searchBar]);
 
   const [parent] = useAutoAnimate<HTMLDivElement>();
-
   return (
     <>
       <ApplicationHeader
