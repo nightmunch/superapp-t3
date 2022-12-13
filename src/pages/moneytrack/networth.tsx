@@ -288,7 +288,7 @@ const Table = ({
               </td>
               <td>{item.remarks}</td>
               <td className="text-center">
-                <div className="tooltip" data-tip="Delete NetWorth">
+                <div className="tooltip" data-tip="Delete Net Worth">
                   <button
                     className="btn-ghost btn"
                     onClick={() => {
