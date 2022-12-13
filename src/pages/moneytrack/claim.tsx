@@ -13,15 +13,18 @@ import { z } from "zod";
 import toast from "react-hot-toast";
 import { trpc } from "../../utils/trpc";
 import type { Claim as ClaimsProps } from "@prisma/client";
+import { useSession } from "next-auth/react";
 
 const Claim: NextPage = () => {
+  const { data: sessionData } = useSession();
+
   const [selectedID, setSelectedID] = useState<string>("");
   const [handleAddModal, setHandleAddModal] = useState(false);
   const [handleDeleteModal, setHandleDeleteModal] = useState(false);
   const [handleShowModal, setHandleShowModal] = useState(false);
 
   const claims = trpc.claim.listall.useQuery({
-    userId: "cl5qwgu6k0015zwv8jt19n94s",
+    userId: sessionData?.user?.id ?? "cl5qwgu6k0015zwv8jt19n94s",
   });
 
   const addClaims = trpc.claim.create.useMutation({
