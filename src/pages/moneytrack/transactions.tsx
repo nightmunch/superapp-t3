@@ -107,7 +107,7 @@ const Transactions: NextPage = () => {
     expense: z.string().min(1),
     amount: z.number().positive().min(1),
     category: z.string().min(1),
-    remarks: z.string().min(1),
+    remarks: z.string().optional(),
     date: z.date(),
   });
 

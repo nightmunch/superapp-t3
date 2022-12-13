@@ -105,7 +105,7 @@ export const transactionRouter = router({
         item: z.string().min(1),
         amount: z.number().positive(),
         category: z.string().min(1),
-        remarks: z.string(),
+        remarks: z.string().optional(),
         date: z.date(),
         userId: z.string().cuid(),
       })
@@ -120,7 +120,7 @@ export const transactionRouter = router({
         item: z.string().min(1),
         amount: z.number().positive(),
         category: z.string().min(1),
-        remarks: z.string(),
+        remarks: z.string().optional(),
         date: z.date(),
       })
     )

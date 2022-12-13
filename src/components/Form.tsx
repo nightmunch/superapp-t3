@@ -82,7 +82,7 @@ const Input = <T extends Record<string, unknown>>({
                 <input
                   type="text"
                   placeholder={value.placeholder}
-                  defaultValue={value.currentValue}
+                  defaultValue={value.currentValue ?? ""}
                   className={`input-bordered input input-md w-full ${
                     errors[index] ? "input-error" : ""
                   }`}

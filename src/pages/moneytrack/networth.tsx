@@ -2,7 +2,11 @@ import type { NextPage } from "next";
 import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 import { FaPlus, FaTrash } from "react-icons/fa";
-import { formatDate, separator } from "../../helpers/helpers";
+import {
+  getTextColor,
+  networthcategories,
+  separator,
+} from "../../helpers/helpers";
 import MoneyTrackLayout from "../../layouts/MoneyTrackLayout";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Modal } from "../../components/Modal";
@@ -12,77 +16,101 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import toast from "react-hot-toast";
 import { trpc } from "../../utils/trpc";
-import type { Claim as ClaimsProps } from "@prisma/client";
+import type { NetWorth as NetWorthProps } from "@prisma/client";
 
-const Claim: NextPage = () => {
+const NetWorth: NextPage = () => {
   const [selectedID, setSelectedID] = useState<string>("");
   const [handleAddModal, setHandleAddModal] = useState(false);
   const [handleDeleteModal, setHandleDeleteModal] = useState(false);
   const [handleShowModal, setHandleShowModal] = useState(false);
 
-  const claims = trpc.claim.listall.useQuery({
+  const networths = trpc.networth.listall.useQuery({
     userId: "cl5qwgu6k0015zwv8jt19n94s",
   });
 
-  const addClaims = trpc.claim.create.useMutation({
+  const addNetWorths = trpc.networth.create.useMutation({
     onSuccess: () => {
-      claims.refetch();
+      networths.refetch();
     },
   });
 
-  const updateClaims = trpc.claim.update.useMutation({
+  const updateNetWorths = trpc.networth.update.useMutation({
     onSuccess: () => {
-      claims.refetch();
+      networths.refetch();
     },
   });
 
-  const deleteClaims = trpc.claim.delete.useMutation({
+  const deleteNetWorths = trpc.networth.delete.useMutation({
     onSuccess: () => {
-      claims.refetch();
+      networths.refetch();
     },
   });
 
-  const showClaims = trpc.claim.show.useQuery({
+  const showNetWorths = trpc.networth.show.useQuery({
     id: selectedID,
   });
 
   const initialValues = {
     item: {
       type: "text",
-      placeholder: "Mekdi",
+      placeholder: "Bank Islam",
     },
     amount: {
       type: "number",
       placeholder: "10.00",
     },
-    date: {
-      type: "date",
-      placeholder: new Date(),
+    currency: {
+      type: "select",
+      placeholder: "Select Currency",
+      options: [{ category: "RM" }, { category: "ETH" }],
+    },
+    category: {
+      type: "select",
+      placeholder: "Select Category",
+      options: networthcategories,
+    },
+    remarks: {
+      type: "text",
+      placeholder: "To the moon! 🌙",
     },
   };
 
   const initialShowValues = {
     item: {
       type: "text",
-      placeholder: "Mekdi",
-      currentValue: showClaims.data?.item,
+      placeholder: "Bank Islam",
+      currentValue: showNetWorths.data?.item,
     },
     amount: {
       type: "number",
       placeholder: "10.00",
-      currentValue: showClaims.data?.amount,
+      currentValue: showNetWorths.data?.amount,
     },
-    date: {
-      type: "date",
-      placeholder: new Date(),
-      currentValue: showClaims.data?.date,
+    currency: {
+      type: "select",
+      placeholder: "Select Currency",
+      options: [{ category: "RM" }, { category: "ETH" }],
+      currentValue: showNetWorths.data?.currency,
+    },
+    category: {
+      type: "select",
+      placeholder: "Select Category",
+      options: [{ category: "Bank" }, { category: "Investment" }],
+      currentValue: showNetWorths.data?.category,
+    },
+    remarks: {
+      type: "text",
+      placeholder: "To the moon! 🌙",
+      currentValue: showNetWorths.data?.remarks,
     },
   };
 
   const formSchema = z.object({
     item: z.string().min(1),
     amount: z.number().positive().min(1),
-    date: z.date(),
+    category: z.string().min(1),
+    currency: z.string().min(1),
+    remarks: z.string().optional(),
   });
 
   type formType = z.infer<typeof formSchema>;
@@ -98,9 +126,9 @@ const Claim: NextPage = () => {
   return (
     <MoneyTrackLayout>
       <div className="flex flex-col gap-5">
-        <h1 className="text-xl font-semibold text-primary">Claim List</h1>
+        <h1 className="text-xl font-semibold text-primary">Net Worth</h1>
         <div className="flex flex-row-reverse gap-2">
-          <div className="tooltip" data-tip="Add Claim">
+          <div className="tooltip" data-tip="Add Net Worth">
             <button
               className="btn-ghost btn"
               onClick={() => setHandleAddModal(true)}
@@ -110,14 +138,14 @@ const Claim: NextPage = () => {
           </div>
         </div>
         <Table
-          data={claims.data}
+          data={networths.data}
           setIsOpen={setHandleDeleteModal}
           setIsShow={setHandleShowModal}
           setSelectedID={setSelectedID}
         />
         <Modal
           type="form"
-          title="Claim"
+          title="Net Worth"
           isOpen={handleShowModal}
           setIsOpen={setHandleShowModal}
           haveCloseButton={true}
@@ -125,23 +153,25 @@ const Claim: NextPage = () => {
           <Form<typeof initialShowValues, formType>
             initialValues={initialShowValues}
             onSubmit={(data: formType) => {
-              updateClaims.mutateAsync({
+              updateNetWorths.mutateAsync({
                 id: selectedID,
                 item: data.item,
                 amount: data.amount,
-                date: data.date,
+                currency: data.currency,
+                category: data.category,
+                remarks: data.remarks,
               });
               useShowFormReturn.reset();
               setHandleShowModal(false);
-              toast.success("Claim is successfully updated!");
+              toast.success("Net Worth is successfully updated!");
             }}
-            submitButton="Update Claim"
+            submitButton="Update Net Worth"
             useFormReturn={useShowFormReturn}
           />
         </Modal>
         <Modal
           type="form"
-          title="Add Claim"
+          title="Add Net Worth"
           isOpen={handleAddModal}
           setIsOpen={setHandleAddModal}
           haveCloseButton={true}
@@ -149,34 +179,36 @@ const Claim: NextPage = () => {
           <Form<typeof initialValues, formType>
             initialValues={initialValues}
             onSubmit={(data: formType) => {
-              addClaims.mutateAsync({
+              addNetWorths.mutateAsync({
                 userId: "cl5qwgu6k0015zwv8jt19n94s",
                 item: data.item,
                 amount: data.amount,
-                date: data.date,
+                currency: data.currency,
+                category: data.category,
+                remarks: data.remarks,
               });
               useAddFormReturn.reset();
               setHandleAddModal(false);
-              toast.success("Claim is successfully added!");
+              toast.success("Net Worth is successfully added!");
             }}
-            submitButton="Add Claim"
+            submitButton="Add Net Worth"
             useFormReturn={useAddFormReturn}
           />
         </Modal>
         <Modal
           type="confirmation"
-          title="Delete this claim?"
+          title="Delete this net worth?"
           description="Are you sure you want to delete this claim?"
           isOpen={handleDeleteModal}
           setIsOpen={setHandleDeleteModal}
           haveCloseButton={false}
           onConfirm={() => {
             if (selectedID) {
-              deleteClaims.mutateAsync({ id: selectedID });
+              deleteNetWorths.mutateAsync({ id: selectedID });
               setSelectedID("");
             }
             setHandleDeleteModal(false);
-            toast.success("Claim is successfully deleted!");
+            toast.success("Net Worth is successfully deleted!");
           }}
         />
       </div>
@@ -184,7 +216,7 @@ const Claim: NextPage = () => {
   );
 };
 
-export default Claim;
+export default NetWorth;
 
 const Table = ({
   data,
@@ -192,7 +224,7 @@ const Table = ({
   setIsShow,
   setSelectedID,
 }: {
-  data: ClaimsProps[] | undefined;
+  data: NetWorthProps[] | undefined;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   setIsShow: Dispatch<SetStateAction<boolean>>;
   setSelectedID: Dispatch<SetStateAction<string>>;
@@ -204,9 +236,9 @@ const Table = ({
         <thead>
           <tr>
             <td></td>
-            <td>Item</td>
+            <td>Bank/Investment</td>
             <td>Amount</td>
-            <td>Date</td>
+            <td>Remarks</td>
             <td className="text-center">Action</td>
           </tr>
         </thead>
@@ -223,14 +255,33 @@ const Table = ({
                   }}
                 >
                   <div className="pb-1">{item.item}</div>
+                  <div
+                    className="badge text-xs"
+                    style={{
+                      backgroundColor: `${
+                        networthcategories.find((x) => {
+                          return x.category == item.category;
+                        })?.color
+                      }`,
+                      color: `${getTextColor(
+                        networthcategories.find((x) => {
+                          return x.category == item.category;
+                        })?.color as string,
+                        "#181A20",
+                        "#C8CDDA"
+                      )}`,
+                    }}
+                  >
+                    {item.category}
+                  </div>
                 </div>
               </td>
-              <td className="font-semibold text-error">
-                -RM {separator(item.amount.toFixed(2))}
+              <td className="font-semibold">
+                {item.currency} {separator(item.amount.toFixed(2))}
               </td>
-              <td>{formatDate(item.date)}</td>
+              <td>{item.remarks}</td>
               <td className="text-center">
-                <div className="tooltip" data-tip="Delete Claim">
+                <div className="tooltip" data-tip="Delete NetWorth">
                   <button
                     className="btn-ghost btn"
                     onClick={() => {

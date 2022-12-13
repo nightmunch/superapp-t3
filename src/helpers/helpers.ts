@@ -25,6 +25,12 @@ export const categories = [
   { category: "Others", color: "#f4a261" },
 ];
 
+// Categories with Color
+export const networthcategories = [
+  { category: "Bank", color: "#618df4" },
+  { category: "Investment", color: "#8ec94f" },
+];
+
 // Number Comma Separator
 export const separator = (numb: string) => {
   const str = numb.toString().split(".");
