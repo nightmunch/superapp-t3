@@ -11,8 +11,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { trpc } from "../../utils/trpc";
 import { Table } from "../../components/moneytrack/TransactionsTable";
+import { useSession } from "next-auth/react";
 
 const Transactions: NextPage = () => {
+  const { data: sessionData } = useSession();
+
   const currentMonth = new Date().getMonth() + 1;
   const [selectedMonth, setSelectedMonth] = useState<number>(currentMonth);
   const [selectedID, setSelectedID] = useState<string>("");
@@ -21,7 +24,7 @@ const Transactions: NextPage = () => {
   const [handleShowModal, setHandleShowModal] = useState(false);
 
   const transactions = trpc.transactions.listbymonth.useQuery({
-    userId: "cl5qwgu6k0015zwv8jt19n94s",
+    userId: sessionData?.user?.id ?? "cl5qwgu6k0015zwv8jt19n94s",
     month: selectedMonth,
   });
 

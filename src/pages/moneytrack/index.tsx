@@ -6,12 +6,15 @@ import type { DataProps } from "../../components/moneytrack/Doughnut";
 import { Doughnut } from "../../components/moneytrack/Doughnut";
 import { trpc } from "../../utils/trpc";
 import { RiEmotionSadLine } from "react-icons/ri";
+import { useSession } from "next-auth/react";
 
 const MoneyTrack: NextPage = () => {
+  const { data: sessionData } = useSession();
+
   const currentMonth = new Date().getMonth() + 1;
   const [selectedMonth, setSelectedMonth] = useState<number>(currentMonth);
   const summaries = trpc.transactions.summarybymonth.useQuery({
-    userId: "cl5qwgu6k0015zwv8jt19n94s",
+    userId: sessionData?.user?.id ?? "cl5qwgu6k0015zwv8jt19n94s",
     month: selectedMonth,
   });
   return (
