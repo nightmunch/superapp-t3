@@ -2,6 +2,7 @@ import { router } from "../trpc";
 import { authRouter } from "./auth";
 import { claimRouter } from "./claim";
 import { netWorthRouter } from "./networth";
+import { recipeRouter } from "./recipe";
 import { transactionRouter } from "./transactions";
 
 export const appRouter = router({
@@ -9,6 +10,7 @@ export const appRouter = router({
   transactions: transactionRouter,
   claim: claimRouter,
   networth: netWorthRouter,
+  recipe: recipeRouter,
 });
 
 // export type definition of API

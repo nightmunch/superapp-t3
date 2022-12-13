@@ -183,7 +183,7 @@ const NetWorth: NextPage = () => {
             initialValues={initialValues}
             onSubmit={(data: formType) => {
               addNetWorths.mutateAsync({
-                userId: "cl5qwgu6k0015zwv8jt19n94s",
+                userId: sessionData?.user?.id ?? "cl5qwgu6k0015zwv8jt19n94s",
                 item: data.item,
                 amount: data.amount,
                 currency: data.currency,
