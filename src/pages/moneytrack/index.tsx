@@ -7,6 +7,7 @@ import { Doughnut } from "../../components/moneytrack/Doughnut";
 import { trpc } from "../../utils/trpc";
 import { RiEmotionSadLine } from "react-icons/ri";
 import { useSession } from "next-auth/react";
+import type { Session } from "next-auth";
 
 const MoneyTrack: NextPage = () => {
   const { data: sessionData } = useSession();
@@ -49,6 +50,7 @@ const MoneyTrack: NextPage = () => {
                 <SummaryTable
                   data={summaries.data}
                   selectedMonth={selectedMonth}
+                  sessionData={sessionData}
                 />
               </>
             ) : (
@@ -77,12 +79,14 @@ export default MoneyTrack;
 const SummaryTable = ({
   data,
   selectedMonth,
+  sessionData,
 }: {
   data: DataProps[];
   selectedMonth: number;
+  sessionData: Session | null;
 }) => {
   const { data: totalQuery } = trpc.transactions.totalspent.useQuery({
-    userId: "cl5qwgu6k0015zwv8jt19n94s",
+    userId: sessionData?.user?.id ?? "cl5qwgu6k0015zwv8jt19n94s",
     month: selectedMonth,
   });
   const datas = data.map((data) => {

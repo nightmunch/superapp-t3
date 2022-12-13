@@ -21,6 +21,10 @@ export const Table = ({
   setSelectedID: Dispatch<SetStateAction<string>>;
 }) => {
   const [parentTBody] = useAutoAnimate<HTMLTableSectionElement>();
+  const sum = data?.reduce(
+    (accumulator, currentValue) => accumulator + currentValue.amount,
+    0
+  );
   return (
     <div className="overflow-x-auto">
       <table className="table-zebra table w-full table-auto">
@@ -89,6 +93,17 @@ export const Table = ({
               </td>
             </tr>
           ))}
+          {sum ? (
+            <tr>
+              <th></th>
+              <th className="text-primary">Total</th>
+              <th className="text-primary">RM {separator(sum.toFixed(2))}</th>
+              <th></th>
+              <th></th>
+            </tr>
+          ) : (
+            <></>
+          )}
         </tbody>
       </table>
     </div>
