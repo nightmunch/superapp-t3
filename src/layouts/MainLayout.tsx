@@ -1,7 +1,7 @@
 import { atom, useAtom } from "jotai";
 import Head from "next/head";
 import Link from "next/link";
-import { createElement, useEffect, useState } from "react";
+import { createElement, useEffect } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import type { ReactNode } from "react";
 import {
@@ -18,13 +18,20 @@ import { mainList, projectList } from "../data/drawer";
 import type { LinkProps } from "../data/drawer";
 import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { themeAtom } from "../hooks/useTheme";
 
 const isOpenAtom = atom(false);
 
 const MainLayout = ({ children }: { children: ReactNode }) => {
   const [theme, setTheme] = useAtom(themeAtom);
+
+  useEffect(() => {
+    setTheme(localStorage.getItem("theme") as string);
+    toast("Welcome to SuperApp! 🥳🎊");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div>
       <Head>
