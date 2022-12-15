@@ -20,6 +20,9 @@ import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react";
 import toast, { Toaster } from "react-hot-toast";
 import { themeAtom } from "../hooks/useTheme";
+import Image from "next/image";
+
+import { AiOutlineUser } from "react-icons/ai";
 
 const isOpenAtom = atom(false);
 
@@ -132,6 +135,7 @@ const Navbar = ({
 };
 
 const Drawer = ({ children }: { children: ReactNode }) => {
+  const { data: sessionData } = useSession();
   const [isOpen, setIsOpen] = useAtom(isOpenAtom);
   return (
     <div className="drawer">
@@ -159,6 +163,11 @@ const Drawer = ({ children }: { children: ReactNode }) => {
           {projectList.map((link, index) => (
             <SidebarLink key={index} link={link} />
           ))}
+          <div className="grow"></div>
+          <SidebarProfile
+            name={sessionData?.user?.name as string}
+            img_dir={sessionData?.user?.image as string}
+          />
         </ul>
       </div>
     </div>
@@ -192,6 +201,44 @@ const SidebarLink = ({ link }: { link: LinkProps }) => {
           </span>
           <span className="font-semibold">{link.title}</span>
         </div>
+      </Link>
+    </li>
+  );
+};
+
+const SidebarProfile = ({ name = "Guest", img_dir = "" }) => {
+  const [, setIsOpen] = useAtom(isOpenAtom);
+  const router = useRouter();
+  const href = "/profile";
+  return (
+    <li>
+      <Link
+        href={`${name != "Guest" ? "/profile" : "#"}`}
+        onClick={() => setIsOpen(false)}
+        className={` ${
+          router.pathname == href ? "bg-neutral text-primary" : ""
+        }`}
+      >
+        {name == "Guest" ? (
+          <div className="placeholder avatar">
+            <div className="w-9 items-center rounded-full bg-neutral-focus text-neutral-content ring ring-primary ring-offset-2 ring-offset-base-100">
+              <span className="text-3xl text-primary">
+                <AiOutlineUser />
+              </span>
+            </div>
+          </div>
+        ) : (
+          <div className="h-9 w-9 rounded-full ring ring-primary ring-offset-2 ring-offset-base-100">
+            <Image
+              src={img_dir}
+              alt="Avatar"
+              width={1000}
+              height={1000}
+              className="rounded-full object-cover"
+            />
+          </div>
+        )}
+        <h4 className="ml-4 font-medium">{name}</h4>
       </Link>
     </li>
   );
