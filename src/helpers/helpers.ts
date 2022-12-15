@@ -113,3 +113,41 @@ export function shadeColor(hexInput: string, percent: number) {
     .toString(16)
     .toUpperCase()}`;
 }
+
+export function rgbToHex(rgb: string): string {
+  // Get the individual RGB values
+  const values = rgb.split(",");
+  const r = parseInt(values[0]?.split("(")[1] as string);
+  const g = parseInt(values[1] as string);
+  const b = parseInt(values[2]?.split(")")[0] as string);
+
+  // Convert the RGB values to hexadecimal
+  const hex = `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
+
+  // Return the hexadecimal color value
+  return hex;
+}
+
+export function classNameToHex(className: string): string {
+  // Create a dummy class with the given name
+  // const dummyClass = `.${className} { color: white; }`;
+  const element = document.querySelector(`.${className}`);
+
+  // // Create a new style element and append the dummy class to it
+  // const style = document.createElement("style");
+  // style.innerHTML = dummyClass;
+  // document.head.appendChild(style);
+
+  // Get the computed style for the dummy class
+  const computedStyle = window.getComputedStyle(element!);
+
+  // Get the value of the "color" property
+  const color = computedStyle.getPropertyValue("color");
+
+  // // Remove the style element
+  // document.head.removeChild(style);
+
+  console.log(color);
+  // Return the hexadecimal color value
+  return rgbToHex(color);
+}

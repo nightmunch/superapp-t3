@@ -19,16 +19,12 @@ import type { LinkProps } from "../data/drawer";
 import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
+import { themeAtom } from "../hooks/useTheme";
 
 const isOpenAtom = atom(false);
 
 const MainLayout = ({ children }: { children: ReactNode }) => {
-  const [currentTheme, setCurrentTheme] = useState<string | null | undefined>();
-  useEffect(() => {
-    const localtheme = localStorage.getItem("theme");
-    setCurrentTheme(localtheme);
-  }, []);
-
+  const [theme, setTheme] = useAtom(themeAtom);
   return (
     <div>
       <Head>
@@ -48,7 +44,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
         }}
       />
       <Drawer>
-        <Navbar currentTheme={currentTheme} setCurrentTheme={setCurrentTheme} />
+        <Navbar currentTheme={theme} setCurrentTheme={setTheme} />
         <div className="mx-auto flex min-h-screen w-11/12 flex-col gap-5 pt-5">
           {children}
           <Footer />
@@ -64,8 +60,8 @@ const Navbar = ({
   currentTheme,
   setCurrentTheme,
 }: {
-  currentTheme: string | undefined | null;
-  setCurrentTheme: Dispatch<SetStateAction<string | null | undefined>>;
+  currentTheme: string;
+  setCurrentTheme: Dispatch<SetStateAction<string>>;
 }) => {
   const [isOpen, setIsOpen] = useAtom(isOpenAtom);
   const { data: sessionData } = useSession();
@@ -106,14 +102,18 @@ const Navbar = ({
         )}
         {sessionData ? (
           <button
-            className="btn-outline btn-error btn"
+            className={`btn-error btn ${
+              currentTheme == "shahrin" ? "btn-outline" : ""
+            }`}
             onClick={() => signOut({ redirect: false })}
           >
             <FaSignOutAlt />
           </button>
         ) : (
           <button
-            className="btn-success btn-outline btn"
+            className={`btn-success btn ${
+              currentTheme == "shahrin" ? "btn-outline" : ""
+            }`}
             onClick={() => signIn("auth0")}
           >
             <FaSignInAlt />

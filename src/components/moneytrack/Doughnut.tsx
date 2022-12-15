@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Prisma } from "@prisma/client";
 import "chart.js/auto";
+import { useAtom } from "jotai";
+import { useEffect, useState } from "react";
 import { Chart } from "react-chartjs-2";
-import { categories, shadeColor } from "../../helpers/helpers";
+import { categories, classNameToHex, shadeColor } from "../../helpers/helpers";
+import { themeAtom } from "../../hooks/useTheme";
 
 export type DataProps = Prisma.PickArray<
   Prisma.TransactionsGroupByOutputType,
@@ -22,6 +25,11 @@ export const Doughnut = ({ data }: { data: DataProps[] }) => {
         ?.color as string,
     };
   });
+  const [theme] = useAtom(themeAtom);
+  const [fontColor, setFontColor] = useState<string>();
+  useEffect(() => {
+    setFontColor(classNameToHex("text-base-content"));
+  }, [theme]);
   return (
     <div className="mx-auto w-72 sm:w-96">
       <Chart
@@ -44,25 +52,23 @@ export const Doughnut = ({ data }: { data: DataProps[] }) => {
               hoverOffset: 10,
             },
           },
-          // plugins: {
-          //   legend: {
-          //     labels: {
-          //       color: themeDict.get(theme),
-          //     },
-          //   },
-          // },
-          layout: {
-            padding: {
-              bottom: 10,
-            },
-          },
           plugins: {
+            legend: {
+              labels: {
+                color: fontColor,
+              },
+            },
             tooltip: {
               callbacks: {
                 label: function (context) {
                   return "RM " + context.parsed.toFixed(2);
                 },
               },
+            },
+          },
+          layout: {
+            padding: {
+              bottom: 10,
             },
           },
           responsive: true,
