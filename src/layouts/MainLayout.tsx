@@ -1,15 +1,18 @@
 import { atom, useAtom } from "jotai";
 import Head from "next/head";
 import Link from "next/link";
-import { createElement } from "react";
+import { createElement, useEffect, useState } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import type { ReactNode } from "react";
 import {
   FaBars,
   FaGithub,
   FaHashtag,
   FaLinkedin,
+  FaMoon,
   FaSignInAlt,
   FaSignOutAlt,
+  FaSun,
 } from "react-icons/fa";
 import { mainList, projectList } from "../data/drawer";
 import type { LinkProps } from "../data/drawer";
@@ -20,6 +23,12 @@ import { Toaster } from "react-hot-toast";
 const isOpenAtom = atom(false);
 
 const MainLayout = ({ children }: { children: ReactNode }) => {
+  const [currentTheme, setCurrentTheme] = useState<string | null | undefined>();
+  useEffect(() => {
+    const localtheme = localStorage.getItem("theme");
+    setCurrentTheme(localtheme);
+  }, []);
+
   return (
     <div>
       <Head>
@@ -39,7 +48,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
         }}
       />
       <Drawer>
-        <Navbar />
+        <Navbar currentTheme={currentTheme} setCurrentTheme={setCurrentTheme} />
         <div className="mx-auto flex min-h-screen w-11/12 flex-col gap-5 pt-5">
           {children}
           <Footer />
@@ -51,7 +60,13 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
 
 export default MainLayout;
 
-const Navbar = () => {
+const Navbar = ({
+  currentTheme,
+  setCurrentTheme,
+}: {
+  currentTheme: string | undefined | null;
+  setCurrentTheme: Dispatch<SetStateAction<string | null | undefined>>;
+}) => {
   const [isOpen, setIsOpen] = useAtom(isOpenAtom);
   const { data: sessionData } = useSession();
   return (
@@ -69,7 +84,26 @@ const Navbar = () => {
           Super<span className="text-base-content">App</span>
         </h1>
       </div>
-      <div className="flex-none">
+      <div className="flex flex-none gap-2">
+        {currentTheme == "shahrin" ? (
+          <button
+            className="btn-ghost btn"
+            data-set-theme="aimi"
+            data-act-class="ACTIVECLASS"
+            onClick={() => setCurrentTheme("aimi")}
+          >
+            <FaSun />
+          </button>
+        ) : (
+          <button
+            className="btn-ghost btn"
+            data-set-theme="shahrin"
+            data-act-class="ACTIVECLASS"
+            onClick={() => setCurrentTheme("shahrin")}
+          >
+            <FaMoon />
+          </button>
+        )}
         {sessionData ? (
           <button
             className="btn-outline btn-error btn"
