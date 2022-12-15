@@ -31,7 +31,7 @@ export const SubNavbar = () => {
     pathname.split("/").length - 1
   ] as string;
   return (
-    <div className="hide-scroll tabs tabs-boxed gap-2 overflow-x-auto whitespace-nowrap bg-base-300 p-3">
+    <div className="hide-scroll tabs tabs-boxed flex-nowrap gap-2 overflow-x-auto whitespace-nowrap bg-base-300 p-3">
       {tabList.map((tab, index) => (
         <Tab key={index} tab={tab} currentTab={currentTab} />
       ))}
