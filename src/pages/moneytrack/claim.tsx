@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
-import { FaPlus, FaTrash } from "react-icons/fa";
+import { FaFileExcel, FaPlus, FaTrash } from "react-icons/fa";
 import { combineValues, formatDate, separator } from "../../helpers/helpers";
 import MoneyTrackLayout from "../../layouts/MoneyTrackLayout";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
@@ -16,6 +16,7 @@ import type { Claim as ClaimsProps } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useAtom } from "jotai";
 import { themeAtom } from "../../hooks/useTheme";
+import * as XLSX from "xlsx";
 
 const Claim: NextPage = () => {
   const { data: sessionData } = useSession();
@@ -26,7 +27,7 @@ const Claim: NextPage = () => {
   const [handleDeleteAllModal, setHandleDeleteAllModal] = useState(false);
   const [handleShowModal, setHandleShowModal] = useState(false);
 
-  const [theme, setTheme] = useAtom(themeAtom);
+  const [theme] = useAtom(themeAtom);
 
   const claims = trpc.claim.listall.useQuery({
     userId: sessionData?.user?.id ?? "cl5qwgu6k0015zwv8jt19n94s",
@@ -113,22 +114,74 @@ const Claim: NextPage = () => {
     resolver: zodResolver(formSchema),
   });
 
+  const generateExcel = () => {
+    // Create the Excel data using the users prop
+    const querydata = claims.data as ClaimsProps[];
+    const data = [
+      ["Index", "Item", "Amount (RM)", "Date"],
+      ...querydata.map((data, index) => [
+        index + 1,
+        data.item,
+        data.amount,
+        data.date,
+      ]),
+    ];
+
+    const date = new Intl.DateTimeFormat("en-GB").format(new Date());
+
+    // Create an Excel workbook
+    const wb = XLSX.utils.book_new();
+
+    // Add the data to the workbook
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+    // Generate the Excel file
+    const excelBuffer = XLSX.write(wb, { type: "array" });
+    const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
+
+    // Trigger the download
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `Claim_${date}.xlsx`;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
   return (
     <MoneyTrackLayout>
       <div className="flex flex-col gap-5">
         <h1 className="text-xl font-semibold text-primary">Claim List</h1>
         <div className="flex flex-row-reverse">
           <div className="flex gap-2">
-            <div className="tooltip" data-tip="Claim All">
-              <button
-                className={`btn-success btn ${
-                  theme == "shahrin" ? "btn-outline" : ""
-                }`}
-                onClick={() => setHandleDeleteAllModal(true)}
-              >
-                Claim All
-              </button>
-            </div>
+            {claims.data?.length != 0 ? (
+              <>
+                <div className="tooltip" data-tip="Download Excel">
+                  <button
+                    className={`btn-info btn ${
+                      theme == "shahrin" ? "btn-outline" : ""
+                    }`}
+                    onClick={() => generateExcel()}
+                  >
+                    <FaFileExcel />
+                  </button>
+                </div>
+                <div className="tooltip" data-tip="Claim All">
+                  <button
+                    className={`btn-success btn ${
+                      theme == "shahrin" ? "btn-outline" : ""
+                    }`}
+                    onClick={() => setHandleDeleteAllModal(true)}
+                  >
+                    Claim All
+                  </button>
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
             <div className="tooltip" data-tip="Add Claim">
               <button
                 className="btn-ghost btn"
