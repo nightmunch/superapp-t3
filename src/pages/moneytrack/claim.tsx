@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 import { FaPlus, FaTrash } from "react-icons/fa";
-import { formatDate, separator } from "../../helpers/helpers";
+import { combineValues, formatDate, separator } from "../../helpers/helpers";
 import MoneyTrackLayout from "../../layouts/MoneyTrackLayout";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Modal } from "../../components/Modal";
@@ -49,6 +49,11 @@ const Claim: NextPage = () => {
     id: selectedID,
   });
 
+  type initialValuesProps = {
+    type: string;
+    placeholder: string | Date;
+  };
+
   const initialValues = {
     item: {
       type: "text",
@@ -64,23 +69,22 @@ const Claim: NextPage = () => {
     },
   };
 
-  const initialShowValues = {
+  const currentValues = {
     item: {
-      type: "text",
-      placeholder: "Mekdi",
       currentValue: showClaims.data?.item,
     },
     amount: {
-      type: "number",
-      placeholder: "10.00",
       currentValue: showClaims.data?.amount,
     },
     date: {
-      type: "date",
-      placeholder: new Date(),
       currentValue: showClaims.data?.date,
     },
   };
+
+  const initialShowValues = combineValues<
+    initialValuesProps,
+    { currentValue: string | number | Date | undefined }
+  >(initialValues, currentValues);
 
   const formSchema = z.object({
     item: z.string().min(1),

@@ -1,7 +1,7 @@
 import type { NextPage } from "next/types";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
-import { categories, months } from "../../helpers/helpers";
+import { categories, combineValues, months } from "../../helpers/helpers";
 import MoneyTrackLayout from "../../layouts/MoneyTrackLayout";
 import { Modal } from "../../components/Modal";
 import { Form } from "../../components/Form";
@@ -53,6 +53,12 @@ const Transactions: NextPage = () => {
     },
   });
 
+  type initialValuesProps = {
+    type: string;
+    placeholder: string | Date;
+    options?: { category: string }[];
+  };
+
   const initialValues = {
     expense: {
       type: "text",
@@ -77,34 +83,28 @@ const Transactions: NextPage = () => {
     },
   };
 
-  const initialShowValues = {
+  const currentValues = {
     expense: {
-      type: "text",
-      placeholder: "Mekdi",
       currentValue: showTransactions.data?.item,
     },
     amount: {
-      type: "number",
-      placeholder: "10.00",
       currentValue: showTransactions.data?.amount,
     },
     category: {
-      type: "select",
-      placeholder: "Select Category",
       currentValue: showTransactions.data?.category,
-      options: categories,
     },
     remarks: {
-      type: "text",
-      placeholder: "Noice Food!",
       currentValue: showTransactions.data?.remarks,
     },
     date: {
-      type: "date",
-      placeholder: new Date(),
       currentValue: showTransactions.data?.date,
     },
   };
+
+  const initialShowValues = combineValues<
+    initialValuesProps,
+    { currentValue: string | number | Date | undefined | null }
+  >(initialValues, currentValues);
 
   const formSchema = z.object({
     expense: z.string().min(1),

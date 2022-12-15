@@ -3,6 +3,7 @@ import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import {
+  combineValues,
   getTextColor,
   networthcategories,
   separator,
@@ -53,6 +54,12 @@ const NetWorth: NextPage = () => {
     id: selectedID,
   });
 
+  type initialValuesProps = {
+    type: string;
+    placeholder: string;
+    options?: { category: string }[];
+  };
+
   const initialValues = {
     item: {
       type: "text",
@@ -78,35 +85,28 @@ const NetWorth: NextPage = () => {
     },
   };
 
-  const initialShowValues = {
+  const currentValues = {
     item: {
-      type: "text",
-      placeholder: "Bank Islam",
       currentValue: showNetWorths.data?.item,
     },
     amount: {
-      type: "number",
-      placeholder: "10.00",
       currentValue: showNetWorths.data?.amount,
     },
     currency: {
-      type: "select",
-      placeholder: "Select Currency",
-      options: [{ category: "RM" }, { category: "ETH" }],
       currentValue: showNetWorths.data?.currency,
     },
     category: {
-      type: "select",
-      placeholder: "Select Category",
-      options: [{ category: "Bank" }, { category: "Investment" }],
       currentValue: showNetWorths.data?.category,
     },
     remarks: {
-      type: "text",
-      placeholder: "To the moon! 🌙",
       currentValue: showNetWorths.data?.remarks,
     },
   };
+
+  const initialShowValues = combineValues<
+    initialValuesProps,
+    { currentValue: string | number | undefined | null }
+  >(initialValues, currentValues);
 
   const formSchema = z.object({
     item: z.string().min(1),

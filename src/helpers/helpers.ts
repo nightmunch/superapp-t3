@@ -130,24 +130,37 @@ export function rgbToHex(rgb: string): string {
 
 export function classNameToHex(className: string): string {
   // Create a dummy class with the given name
-  // const dummyClass = `.${className} { color: white; }`;
   const element = document.querySelector(`.${className}`);
 
-  // // Create a new style element and append the dummy class to it
-  // const style = document.createElement("style");
-  // style.innerHTML = dummyClass;
-  // document.head.appendChild(style);
-
   // Get the computed style for the dummy class
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const computedStyle = window.getComputedStyle(element!);
 
   // Get the value of the "color" property
   const color = computedStyle.getPropertyValue("color");
 
-  // // Remove the style element
-  // document.head.removeChild(style);
-
-  console.log(color);
   // Return the hexadecimal color value
   return rgbToHex(color);
 }
+
+export const combineValues = <T, U>(
+  firstValues: { [key: string]: T },
+  newValues: { [key: string]: U }
+) => {
+  const resultValues: { [key: string]: T & U } = {};
+
+  // Loop through each item in firstValues
+  for (const item of Object.keys(firstValues)) {
+    // Create a new object for the current item in resultValues
+    resultValues[item] = {} as T & U;
+
+    // Copy the properties from firstValues and newValues into the resultValues object
+    Object.assign(
+      resultValues[item] as { [key: string]: T & U },
+      firstValues[item],
+      newValues[item]
+    );
+  }
+
+  return resultValues;
+};
