@@ -17,22 +17,20 @@ export default Home;
 
 const Hero = () => {
   return (
-    <div className="hero rounded-xl bg-base-300 p-2 shadow-md">
-      <div className="hero-content flex-col sm:flex-row-reverse">
-        <div className="card bg-base-100 sm:w-3/4">
-          <div className="card-body relative">
+    <div className="flex justify-center rounded-xl bg-base-300 p-2 shadow-md">
+      <div className="flex flex-col gap-5 p-5 sm:flex-row-reverse">
+        <div className="card bg-base-100">
+          <div className="card-body">
             <Image
-              className="!relative mb-2 max-w-sm"
+              className="!relative"
               src={"/undraw_my_app.svg"}
               alt={"illustration superapp"}
               fill
-              sizes="(max-width: 768px) 100vw,
-              (max-width: 1200px) 50vw,
-              33vw"
             />
+            {/* </figure> */}
           </div>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col justify-center gap-2">
           <h2 className="text-center text-4xl font-semibold text-primary sm:text-left sm:text-5xl">
             Super<span className="text-base-content">App</span>
           </h2>
