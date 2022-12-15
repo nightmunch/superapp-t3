@@ -14,6 +14,8 @@ import toast from "react-hot-toast";
 import { trpc } from "../../utils/trpc";
 import type { Claim as ClaimsProps } from "@prisma/client";
 import { useSession } from "next-auth/react";
+import { useAtom } from "jotai";
+import { themeAtom } from "../../hooks/useTheme";
 
 const Claim: NextPage = () => {
   const { data: sessionData } = useSession();
@@ -21,7 +23,10 @@ const Claim: NextPage = () => {
   const [selectedID, setSelectedID] = useState<string>("");
   const [handleAddModal, setHandleAddModal] = useState(false);
   const [handleDeleteModal, setHandleDeleteModal] = useState(false);
+  const [handleDeleteAllModal, setHandleDeleteAllModal] = useState(false);
   const [handleShowModal, setHandleShowModal] = useState(false);
+
+  const [theme, setTheme] = useAtom(themeAtom);
 
   const claims = trpc.claim.listall.useQuery({
     userId: sessionData?.user?.id ?? "cl5qwgu6k0015zwv8jt19n94s",
@@ -40,6 +45,12 @@ const Claim: NextPage = () => {
   });
 
   const deleteClaims = trpc.claim.delete.useMutation({
+    onSuccess: () => {
+      claims.refetch();
+    },
+  });
+
+  const deleteAllClaims = trpc.claim.deleteall.useMutation({
     onSuccess: () => {
       claims.refetch();
     },
@@ -106,14 +117,26 @@ const Claim: NextPage = () => {
     <MoneyTrackLayout>
       <div className="flex flex-col gap-5">
         <h1 className="text-xl font-semibold text-primary">Claim List</h1>
-        <div className="flex flex-row-reverse gap-2">
-          <div className="tooltip" data-tip="Add Claim">
-            <button
-              className="btn-ghost btn"
-              onClick={() => setHandleAddModal(true)}
-            >
-              <FaPlus />
-            </button>
+        <div className="flex flex-row-reverse">
+          <div className="flex gap-2">
+            <div className="tooltip" data-tip="Claim All">
+              <button
+                className={`btn-success btn ${
+                  theme == "shahrin" ? "btn-outline" : ""
+                }`}
+                onClick={() => setHandleDeleteAllModal(true)}
+              >
+                Claim All
+              </button>
+            </div>
+            <div className="tooltip" data-tip="Add Claim">
+              <button
+                className="btn-ghost btn"
+                onClick={() => setHandleAddModal(true)}
+              >
+                <FaPlus />
+              </button>
+            </div>
           </div>
         </div>
         <Table
@@ -140,7 +163,7 @@ const Claim: NextPage = () => {
               });
               useShowFormReturn.reset();
               setHandleShowModal(false);
-              toast.success("Claim is successfully updated!");
+              toast.success("Claim has successfully updated!");
             }}
             submitButton="Update Claim"
             useFormReturn={useShowFormReturn}
@@ -164,7 +187,7 @@ const Claim: NextPage = () => {
               });
               useAddFormReturn.reset();
               setHandleAddModal(false);
-              toast.success("Claim is successfully added!");
+              toast.success("Claim has successfully added!");
             }}
             submitButton="Add Claim"
             useFormReturn={useAddFormReturn}
@@ -183,7 +206,23 @@ const Claim: NextPage = () => {
               setSelectedID("");
             }
             setHandleDeleteModal(false);
-            toast.success("Claim is successfully deleted!");
+            toast.success("Claim has successfully deleted!");
+          }}
+        />
+        <Modal
+          type="confirmation"
+          title="Delete all the claim?"
+          description="Are you sure you want to delete all claim?"
+          isOpen={handleDeleteAllModal}
+          setIsOpen={setHandleDeleteAllModal}
+          haveCloseButton={false}
+          onConfirm={() => {
+            deleteAllClaims.mutateAsync({
+              userId: sessionData?.user?.id ?? "cl5qwgu6k0015zwv8jt19n94s",
+            });
+            setSelectedID("");
+            setHandleDeleteAllModal(false);
+            toast.success("All claim have successfully deleted!");
           }}
         />
       </div>

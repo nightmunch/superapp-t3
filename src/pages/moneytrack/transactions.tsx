@@ -180,7 +180,7 @@ const Transactions: NextPage = () => {
                 date: data.date,
               });
               setHandleShowModal(false);
-              toast.success("Transaction is successfully updated!");
+              toast.success("Transaction has successfully updated!");
             }}
             submitButton="Update Transaction"
             useFormReturn={useShowFormReturn}
@@ -206,7 +206,7 @@ const Transactions: NextPage = () => {
               });
               useAddFormReturn.reset();
               setHandleAddModal(false);
-              toast.success("Transaction is successfully added!");
+              toast.success("Transaction has successfully added!");
             }}
             submitButton="Add Transaction"
             useFormReturn={useAddFormReturn}
@@ -225,7 +225,7 @@ const Transactions: NextPage = () => {
               setSelectedID("");
             }
             setHandleDeleteModal(false);
-            toast.success("Transaction is successfully deleted!");
+            toast.success("Transaction has successfully deleted!");
           }}
         />
         {/* TODO:

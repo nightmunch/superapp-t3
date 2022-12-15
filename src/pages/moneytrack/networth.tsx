@@ -166,7 +166,7 @@ const NetWorth: NextPage = () => {
               });
               useShowFormReturn.reset();
               setHandleShowModal(false);
-              toast.success("Net Worth is successfully updated!");
+              toast.success("Net Worth has successfully updated!");
             }}
             submitButton="Update Net Worth"
             useFormReturn={useShowFormReturn}
@@ -192,7 +192,7 @@ const NetWorth: NextPage = () => {
               });
               useAddFormReturn.reset();
               setHandleAddModal(false);
-              toast.success("Net Worth is successfully added!");
+              toast.success("Net Worth has successfully added!");
             }}
             submitButton="Add Net Worth"
             useFormReturn={useAddFormReturn}
@@ -211,7 +211,7 @@ const NetWorth: NextPage = () => {
               setSelectedID("");
             }
             setHandleDeleteModal(false);
-            toast.success("Net Worth is successfully deleted!");
+            toast.success("Net Worth has successfully deleted!");
           }}
         />
       </div>

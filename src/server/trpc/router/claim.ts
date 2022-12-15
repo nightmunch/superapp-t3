@@ -80,4 +80,14 @@ export const claimRouter = router({
       await ctx.prisma.claim.delete({ where: { id } });
       return { id };
     }),
+  deleteall: publicProcedure
+    .input(
+      z.object({
+        userId: z.string().cuid(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { userId } = input;
+      await ctx.prisma.claim.deleteMany({ where: { userId } });
+    }),
 });

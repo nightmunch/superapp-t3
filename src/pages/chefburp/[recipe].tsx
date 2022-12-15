@@ -158,7 +158,7 @@ export default function Recipe() {
         description="Are you sure you want to delete this recipe?"
         buttonTitle="Remove Recipe"
         id={id}
-        alertMessage={"Recipe is successfully deleted!"}
+        alertMessage={"Recipe has successfully deleted!"}
       />
     </>
   );
