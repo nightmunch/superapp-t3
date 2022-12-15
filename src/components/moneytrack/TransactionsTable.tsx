@@ -64,7 +64,7 @@ export const Table = ({
                   >
                     <div className="pb-1">{item.item}</div>
                     <div
-                      className="badge text-xs"
+                      className="badge border-0 text-xs"
                       style={{
                         backgroundColor: `${
                           categories.find((x) => {
