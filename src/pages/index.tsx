@@ -77,14 +77,17 @@ const LoopingBar = () => {
 };
 
 const Clock = () => {
-  const [date, setDate] = useState(new Date());
+  // const [date, setDate] = useState(new Date());
+  const [hour, setHour] = useState(0);
+  const [minute, setMinute] = useState(0);
+  const [second, setSecond] = useState(0);
 
   function refreshClock() {
     const currentDate = new Date();
-    console.log(currentDate.getHours());
-    console.log(currentDate.getMinutes());
-    console.log(currentDate.getSeconds());
-    setDate(new Date());
+    setHour(currentDate.getHours());
+    setMinute(currentDate.getMinutes());
+    setSecond(currentDate.getSeconds());
+    // setDate(new Date());
   }
 
   useEffect(() => {
@@ -106,18 +109,14 @@ const Clock = () => {
         <div className={clockClassName}>
           <span className="countdown font-mono text-4xl">
             <span
-              style={
-                { "--value": date.getHours() % 12 || 12 } as React.CSSProperties
-              }
+              style={{ "--value": hour % 12 || 12 } as React.CSSProperties}
             />
           </span>
           <span className={wordClassName}>hours</span>
         </div>
         <div className={clockClassName}>
           <span className="countdown font-mono text-4xl">
-            <span
-              style={{ "--value": date.getMinutes() } as React.CSSProperties}
-            />
+            <span style={{ "--value": minute } as React.CSSProperties} />
           </span>
           <span className={wordClassName}>minutes</span>
         </div>
@@ -126,7 +125,7 @@ const Clock = () => {
             <span
               style={
                 {
-                  "--value": date.getSeconds(),
+                  "--value": second,
                 } as React.CSSProperties
               }
             />
