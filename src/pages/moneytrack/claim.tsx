@@ -331,19 +331,32 @@ const Table = ({
             data?.map((item, index) => (
               <tr key={item.id}>
                 <td>{index + 1}</td>
-                <td>
-                  <div
-                    className="flex flex-col"
-                    onClick={() => {
-                      setSelectedID(item.id);
-                      setIsShow(true);
-                    }}
-                  >
+                <td
+                  onClick={() => {
+                    setSelectedID(item.id);
+                    setIsShow(true);
+                  }}
+                >
+                  <div className="flex flex-col">
                     <div className="pb-1">{item.item}</div>
                   </div>
                 </td>
-                <td>RM {separator(item.amount.toFixed(2))}</td>
-                <td>{formatDate(item.date)}</td>
+                <td
+                  onClick={() => {
+                    setSelectedID(item.id);
+                    setIsShow(true);
+                  }}
+                >
+                  RM {separator(item.amount.toFixed(2))}
+                </td>
+                <td
+                  onClick={() => {
+                    setSelectedID(item.id);
+                    setIsShow(true);
+                  }}
+                >
+                  {formatDate(item.date)}
+                </td>
                 <td className="text-center">
                   <div className="tooltip" data-tip="Delete Claim">
                     <button

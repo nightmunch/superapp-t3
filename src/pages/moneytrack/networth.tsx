@@ -289,14 +289,13 @@ const Table = ({
             data?.map((item, index) => (
               <tr key={item.id}>
                 <td>{index + 1}</td>
-                <td>
-                  <div
-                    className="flex flex-col"
-                    onClick={() => {
-                      setSelectedID(item.id);
-                      setIsShow(true);
-                    }}
-                  >
+                <td
+                  onClick={() => {
+                    setSelectedID(item.id);
+                    setIsShow(true);
+                  }}
+                >
+                  <div className="flex flex-col">
                     <div className="pb-1">{item.item}</div>
                     <div
                       className="badge border-0 text-xs"
@@ -319,12 +318,24 @@ const Table = ({
                     </div>
                   </div>
                 </td>
-                <td>
+                <td
+                  onClick={() => {
+                    setSelectedID(item.id);
+                    setIsShow(true);
+                  }}
+                >
                   {item.currency == "RM"
                     ? `RM ${separator(item.amount.toFixed(2))}`
                     : `RM ${separator((item.amount * price.eth).toFixed(2))}`}
                 </td>
-                <td>{item.remarks}</td>
+                <td
+                  onClick={() => {
+                    setSelectedID(item.id);
+                    setIsShow(true);
+                  }}
+                >
+                  {item.remarks}
+                </td>
                 <td className="text-center">
                   <div className="tooltip" data-tip="Delete Net Worth">
                     <button
