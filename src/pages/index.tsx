@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { applicationList } from "../data/applicationlist";
 import type { ApplicationProps } from "../data/applicationlist";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const Home: NextPage = () => {
   return (
@@ -16,6 +17,7 @@ const Home: NextPage = () => {
 export default Home;
 
 const Hero = () => {
+  const [parent] = useAutoAnimate<HTMLDivElement>();
   return (
     <div className="flex justify-center rounded-xl bg-base-300 p-2 shadow-md">
       <div className="flex flex-col gap-5 p-5 sm:flex-row-reverse">
@@ -38,7 +40,9 @@ const Hero = () => {
             storage management and many more to come!
           </p>
           <LoopingBar />
-          <Clock />
+          <div ref={parent}>
+            <Clock />
+          </div>
         </div>
       </div>
     </div>
@@ -80,8 +84,7 @@ const Clock = () => {
   const [date, setDate] = useState<Date>();
 
   function refreshClock() {
-    const currentDate = new Date();
-    setDate(currentDate);
+    setDate(new Date());
   }
 
   useEffect(() => {
