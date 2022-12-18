@@ -40,7 +40,7 @@ const Hero = () => {
             storage management and many more to come!
           </p>
           <LoopingBar />
-          <div ref={parent}>
+          <div ref={parent} className={"flex sm:items-center"}>
             <Clock />
           </div>
         </div>
