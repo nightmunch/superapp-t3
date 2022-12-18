@@ -180,6 +180,7 @@ const Transactions: NextPage = () => {
                 date: data.date,
               });
               setHandleShowModal(false);
+              setSelectedID("");
               toast.success("Transaction has successfully updated!");
             }}
             submitButton="Update Transaction"

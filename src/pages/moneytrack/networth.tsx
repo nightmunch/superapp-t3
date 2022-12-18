@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import type { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { useState } from "react";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import {
@@ -27,6 +27,7 @@ const NetWorth: NextPage = () => {
   const [handleAddModal, setHandleAddModal] = useState(false);
   const [handleDeleteModal, setHandleDeleteModal] = useState(false);
   const [handleShowModal, setHandleShowModal] = useState(false);
+  const [price, setPrice] = useState({ eth: 0 });
 
   const networths = trpc.networth.listall.useQuery({
     userId: sessionData?.user?.id ?? "cl5qwgu6k0015zwv8jt19n94s",
@@ -53,6 +54,21 @@ const NetWorth: NextPage = () => {
   const showNetWorths = trpc.networth.show.useQuery({
     id: selectedID,
   });
+
+  trpc.networth.cryptoprice.useQuery(
+    {
+      crypto: "ethereum",
+    },
+    {
+      onSuccess: ({ data }) => {
+        setPrice((price) => ({
+          ...price,
+          ...{ eth: data },
+        }));
+      },
+      enabled: price.eth == 0,
+    }
+  );
 
   type initialValuesProps = {
     type: string;
@@ -145,6 +161,7 @@ const NetWorth: NextPage = () => {
           setIsOpen={setHandleDeleteModal}
           setIsShow={setHandleShowModal}
           setSelectedID={setSelectedID}
+          price={price}
         />
         <Modal
           type="form"
@@ -166,6 +183,7 @@ const NetWorth: NextPage = () => {
               });
               useShowFormReturn.reset();
               setHandleShowModal(false);
+              setSelectedID("");
               toast.success("Net Worth has successfully updated!");
             }}
             submitButton="Update Net Worth"
@@ -226,15 +244,20 @@ const Table = ({
   setIsOpen,
   setIsShow,
   setSelectedID,
+  price,
 }: {
   data: NetWorthProps[] | undefined;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   setIsShow: Dispatch<SetStateAction<boolean>>;
   setSelectedID: Dispatch<SetStateAction<string>>;
+  price: { eth: number };
 }) => {
   const [parentTBody] = useAutoAnimate<HTMLTableSectionElement>();
   const sum = data?.reduce(
-    (accumulator, currentValue) => accumulator + currentValue.amount,
+    (accumulator, currentValue) =>
+      currentValue.currency == "RM"
+        ? accumulator + currentValue.amount
+        : accumulator + currentValue.amount * price.eth,
     0
   );
   return (
@@ -297,7 +320,9 @@ const Table = ({
                   </div>
                 </td>
                 <td>
-                  {item.currency} {separator(item.amount.toFixed(2))}
+                  {item.currency == "RM"
+                    ? `RM ${separator(item.amount.toFixed(2))}`
+                    : `RM ${separator((item.amount * price.eth).toFixed(2))}`}
                 </td>
                 <td>{item.remarks}</td>
                 <td className="text-center">

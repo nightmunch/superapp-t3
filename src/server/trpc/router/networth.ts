@@ -1,3 +1,4 @@
+import axios from "axios";
 import { z } from "zod";
 
 import { router, publicProcedure } from "../trpc";
@@ -82,5 +83,20 @@ export const netWorthRouter = router({
       const { id } = input;
       await ctx.prisma.netWorth.delete({ where: { id } });
       return { id };
+    }),
+  cryptoprice: publicProcedure
+    .input(
+      z.object({
+        crypto: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const { crypto } = input;
+      const res = await axios(
+        `https://api.coingecko.com/api/v3/simple/price?ids=${crypto}&vs_currencies=myr`
+      );
+      return {
+        data: res.data.ethereum.myr,
+      };
     }),
 });

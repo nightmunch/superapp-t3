@@ -216,6 +216,7 @@ const Claim: NextPage = () => {
               });
               useShowFormReturn.reset();
               setHandleShowModal(false);
+              setSelectedID("");
               toast.success("Claim has successfully updated!");
             }}
             submitButton="Update Claim"
