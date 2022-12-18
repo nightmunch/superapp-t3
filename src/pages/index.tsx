@@ -80,6 +80,7 @@ const Clock = () => {
   const [date, setDate] = useState(new Date());
 
   function refreshClock() {
+    console.log(new Date());
     setDate(new Date());
   }
 
