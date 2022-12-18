@@ -27,7 +27,6 @@ const Hero = () => {
               alt={"illustration superapp"}
               fill
             />
-            {/* </figure> */}
           </div>
         </div>
         <div className="flex flex-col justify-center gap-2">
@@ -85,12 +84,10 @@ const Clock = () => {
   }
 
   useEffect(() => {
-    if (window != undefined) {
-      const timerId = setInterval(refreshClock, 1000);
-      return function cleanup() {
-        clearInterval(timerId);
-      };
-    }
+    const timerId = setInterval(refreshClock, 1000);
+    return () => {
+      clearInterval(timerId);
+    };
   }, []);
 
   const clockClassName =
