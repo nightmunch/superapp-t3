@@ -77,17 +77,15 @@ const LoopingBar = () => {
 };
 
 const Clock = () => {
-  // const [date, setDate] = useState(new Date());
-  const [hour, setHour] = useState(0);
-  const [minute, setMinute] = useState(0);
-  const [second, setSecond] = useState(0);
+  const [hour, setHour] = useState(new Date().getHours());
+  const [minute, setMinute] = useState(new Date().getMinutes());
+  const [second, setSecond] = useState(new Date().getSeconds());
 
   function refreshClock() {
     const currentDate = new Date();
     setHour(currentDate.getHours());
     setMinute(currentDate.getMinutes());
     setSecond(currentDate.getSeconds());
-    // setDate(new Date());
   }
 
   useEffect(() => {
