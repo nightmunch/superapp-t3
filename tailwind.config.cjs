@@ -15,7 +15,8 @@ module.exports = {
           error: "#FC9783",
         },
         aimi: {
-          primary: "#679186",
+          // primary: "#679186",
+          primary: "#631049",
           secondary: "#264e70",
           accent: "#F6F9C8",
           neutral: "#fcfcfa",
