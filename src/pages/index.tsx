@@ -84,10 +84,12 @@ const Clock = () => {
   }
 
   useEffect(() => {
-    const timerId = setInterval(refreshClock, 1000);
-    return () => {
-      clearInterval(timerId);
-    };
+    if (window !== undefined) {
+      const timerId = setInterval(refreshClock, 1000);
+      return () => {
+        clearInterval(timerId);
+      };
+    }
   }, []);
 
   const clockClassName =
