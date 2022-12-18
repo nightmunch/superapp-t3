@@ -23,6 +23,7 @@ import { themeAtom } from "../hooks/useTheme";
 import Image from "next/image";
 
 import { AiOutlineUser } from "react-icons/ai";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const isOpenAtom = atom(false);
 
@@ -34,6 +35,8 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
     toast("Welcome to SuperApp! 🥳🎊", { duration: 2000 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const [parent] = useAutoAnimate<HTMLDivElement>();
 
   return (
     <div>
@@ -55,7 +58,10 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
       />
       <Drawer>
         <Navbar currentTheme={theme} setCurrentTheme={setTheme} />
-        <div className="mx-auto flex min-h-screen w-11/12 flex-col gap-5 pt-5">
+        <div
+          className="mx-auto flex min-h-screen w-11/12 flex-col gap-5 pt-5"
+          ref={parent}
+        >
           {children}
           <Footer />
         </div>

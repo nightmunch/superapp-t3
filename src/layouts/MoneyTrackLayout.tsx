@@ -6,6 +6,7 @@ const MoneyTrackLayout = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <ApplicationHeader
+        key={"test"}
         application={{
           title: "Money Track",
           description: "Track your expenses and saving daily with this app.",
