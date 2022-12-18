@@ -74,7 +74,7 @@ export default function Recipe() {
           Loading...
         </div>
       ) : (
-        <div className="card bg-neutral text-neutral-content">
+        <div className="card bg-neutral text-neutral-content shadow-md">
           <div className="card-body">
             {editable ? (
               <input

@@ -38,7 +38,7 @@ const ChefBurp: NextPage = () => {
             "Community-based recipe library to find your favourite recipe. Burp!",
         }}
       />
-      <div className="card bg-neutral text-neutral-content">
+      <div className="card bg-neutral text-neutral-content shadow-md">
         <div className="card-body flex-row items-center">
           <input
             type="text"
@@ -95,7 +95,7 @@ type RecipeCardType = {
 const RecipeCard = ({ title, description, id }: RecipeCardType) => {
   return (
     <Link href={`/chefburp/${id}`}>
-      <div className="card bg-neutral hover:border hover:border-primary">
+      <div className="card bg-neutral shadow-md hover:border hover:border-primary">
         <div className="card-body">
           <h1 className="text-lg font-semibold capitalize text-primary">
             {title}

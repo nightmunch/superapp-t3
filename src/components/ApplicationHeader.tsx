@@ -9,7 +9,7 @@ export const ApplicationHeader = ({
   application: ApplicationHeaderProps;
 }) => {
   return (
-    <div className="card bg-base-300">
+    <div className="card bg-base-300 shadow-md">
       <div className="card-body">
         <div className="flex flex-col items-center">
           <div>

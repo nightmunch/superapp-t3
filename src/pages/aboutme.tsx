@@ -3,7 +3,7 @@ import { FaLinkedin, FaInstagram, FaGithub, FaEnvelope } from "react-icons/fa";
 export default function AboutMe() {
   return (
     <>
-      <div className="card bg-neutral text-neutral-content">
+      <div className="card bg-neutral text-neutral-content shadow-md">
         <div className="card-body">
           <div className="flex flex-col sm:flex-row sm:gap-10 md:m-auto xl:w-1/2">
             <div className="flex">
@@ -29,7 +29,7 @@ export default function AboutMe() {
           </div>
         </div>
       </div>
-      <div className="card bg-neutral text-neutral-content">
+      <div className="card bg-neutral text-neutral-content shadow-md">
         <div className="card-body">
           <h1 className="text-center text-xl font-semibold text-primary">
             My socials
@@ -50,7 +50,7 @@ export default function AboutMe() {
           </div>
         </div>
       </div>
-      <div className="card bg-neutral text-neutral-content">
+      <div className="card bg-neutral text-neutral-content shadow-md">
         <div className="card-body">
           <h1 className="text-center text-xl font-semibold text-primary">
             About Me
@@ -72,7 +72,7 @@ export default function AboutMe() {
           </p>
         </div>
       </div>
-      <div className="card bg-neutral text-neutral-content">
+      <div className="card bg-neutral text-neutral-content shadow-md">
         <div className="card-body">
           <h1 className="text-center text-xl font-semibold text-primary">
             Skills

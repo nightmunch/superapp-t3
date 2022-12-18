@@ -12,7 +12,7 @@ const MoneyTrackLayout = ({ children }: { children: ReactNode }) => {
         }}
       />
       <SubNavbar />
-      <div className="card bg-base-300">
+      <div className="card bg-base-300 shadow-md">
         <div className="card-body">{children}</div>
       </div>
     </>
