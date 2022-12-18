@@ -77,9 +77,9 @@ const LoopingBar = () => {
 };
 
 const Clock = () => {
-  const [hour, setHour] = useState(1);
-  const [minute, setMinute] = useState(new Date().getMinutes());
-  const [second, setSecond] = useState(new Date().getSeconds());
+  const [hour, setHour] = useState(0);
+  const [minute, setMinute] = useState(0);
+  const [second, setSecond] = useState(0);
 
   function refreshClock() {
     const currentDate = new Date();
@@ -107,7 +107,11 @@ const Clock = () => {
         <div className={clockClassName}>
           <span className="countdown font-mono text-4xl">
             <span
-              style={{ "--value": hour % 12 || 12 } as React.CSSProperties}
+              style={
+                {
+                  "--value": hour == 0 ? 0 : hour % 12 || 12,
+                } as React.CSSProperties
+              }
             />
           </span>
           <span className={wordClassName}>hours</span>
