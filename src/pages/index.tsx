@@ -77,7 +77,7 @@ const LoopingBar = () => {
 };
 
 const Clock = () => {
-  const [hour, setHour] = useState(new Date().getHours());
+  const [hour, setHour] = useState(1);
   const [minute, setMinute] = useState(new Date().getMinutes());
   const [second, setSecond] = useState(new Date().getSeconds());
 
