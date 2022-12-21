@@ -260,6 +260,24 @@ const Table = ({
         : accumulator + currentValue.amount * price.eth,
     0
   );
+  const sumBank = data?.reduce(
+    (accumulator, currentValue) =>
+      currentValue.category == "Bank"
+        ? currentValue.currency == "RM"
+          ? accumulator + currentValue.amount
+          : accumulator + currentValue.amount * price.eth
+        : accumulator + 0,
+    0
+  );
+  const sumInvestment = data?.reduce(
+    (accumulator, currentValue) =>
+      currentValue.category == "Investment"
+        ? currentValue.currency == "RM"
+          ? accumulator + currentValue.amount
+          : accumulator + currentValue.amount * price.eth
+        : accumulator + 0,
+    0
+  );
   return (
     <div className="overflow-x-auto">
       <table className="table-zebra table w-full table-auto">
@@ -351,6 +369,54 @@ const Table = ({
                 </td>
               </tr>
             ))
+          )}
+          {sumBank ? (
+            <tr>
+              <th></th>
+              <th
+                className="text-primary"
+                style={{
+                  color: `${
+                    networthcategories.find((x) => {
+                      return x.category == "Bank";
+                    })?.color
+                  }`,
+                }}
+              >
+                Total Bank
+              </th>
+              <th className="text-primary">
+                RM {separator(sumBank.toFixed(2))}
+              </th>
+              <th></th>
+              <th></th>
+            </tr>
+          ) : (
+            <></>
+          )}
+          {sumInvestment ? (
+            <tr>
+              <th></th>
+              <th
+                className="text-primary"
+                style={{
+                  color: `${
+                    networthcategories.find((x) => {
+                      return x.category == "Investment";
+                    })?.color
+                  }`,
+                }}
+              >
+                Total Investment
+              </th>
+              <th className="text-primary">
+                RM {separator(sumInvestment.toFixed(2))}
+              </th>
+              <th></th>
+              <th></th>
+            </tr>
+          ) : (
+            <></>
           )}
           {sum ? (
             <tr>
