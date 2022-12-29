@@ -157,7 +157,7 @@ const Drawer = ({ children }: { children: ReactNode }) => {
           className="drawer-overlay"
           onClick={() => setIsOpen(false)}
         ></label>
-        <ul className="menu w-60 rounded-xl bg-base-100 p-4 text-base-content shadow-md">
+        <ul className="menu w-60 gap-2 rounded-xl bg-base-100 p-4 text-base-content shadow-md">
           <h1 className="ml-3 text-3xl font-semibold text-primary">
             Super<span className="text-base-content">App</span>
           </h1>
@@ -193,7 +193,7 @@ const SidebarLink = ({ link }: { link: LinkProps }) => {
     }
   };
   return (
-    <li>
+    <li className="group">
       <Link
         href={link.href}
         className={`${handleSelected({
@@ -202,7 +202,11 @@ const SidebarLink = ({ link }: { link: LinkProps }) => {
         onClick={() => setIsOpen(false)}
       >
         <div className="flex items-center gap-5">
-          <span className={` ${handleSelected({ className: "text-primary" })}`}>
+          <span
+            className={` ${handleSelected({
+              className: "text-primary",
+            })} transition duration-150 ease-in-out group-hover:scale-125 group-hover:text-primary`}
+          >
             {createElement(link.icon)}
           </span>
           <span className="font-semibold">{link.title}</span>
