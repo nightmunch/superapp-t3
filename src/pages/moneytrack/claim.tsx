@@ -117,6 +117,10 @@ const Claim: NextPage = () => {
   const generateExcel = () => {
     // Create the Excel data using the users prop
     const querydata = claims.data as ClaimsProps[];
+    const sum = claims.data?.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.amount,
+      0
+    );
     const data = [
       ["Index", "Item", "Amount (RM)", "Date"],
       ...querydata.map((data, index) => [
@@ -125,6 +129,7 @@ const Claim: NextPage = () => {
         data.amount,
         data.date,
       ]),
+      ["", "Total", sum],
     ];
 
     const date = new Intl.DateTimeFormat("en-GB").format(new Date());
