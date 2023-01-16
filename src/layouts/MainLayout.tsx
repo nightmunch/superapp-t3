@@ -82,7 +82,7 @@ const Navbar = ({
   const [isOpen, setIsOpen] = useAtom(isOpenAtom);
   const { data: sessionData } = useSession();
   return (
-    <div className="navbar sticky top-0 z-10 gap-2 rounded-b-lg bg-base-300 shadow-md">
+    <div className="navbar sticky top-0 z-10 gap-2 rounded-b-lg bg-base-300 bg-opacity-90 shadow-md backdrop-blur">
       <div className="flex-none">
         <button
           className="btn-ghost btn-square btn"
