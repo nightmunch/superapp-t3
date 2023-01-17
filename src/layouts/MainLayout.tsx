@@ -158,7 +158,7 @@ const Drawer = ({ children }: { children: ReactNode }) => {
           onClick={() => setIsOpen(false)}
         ></label>
         <ul className="menu w-60 gap-2 rounded-xl bg-base-100 p-4 text-base-content shadow-md">
-          <h1 className="ml-3 text-3xl font-semibold text-primary">
+          <h1 className="mt-2 text-center text-3xl font-semibold text-primary">
             Super<span className="text-base-content">App</span>
           </h1>
           <div className="divider" />
