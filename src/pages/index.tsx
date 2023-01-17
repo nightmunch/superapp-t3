@@ -5,7 +5,7 @@ import LoopingBar from "../components/LoopingBar";
 const Home: NextPage = () => {
   return (
     <div className="mx-auto mt-5 flex max-w-3xl flex-col justify-center">
-      <div className="flex flex-col gap-5 p-5">
+      <div className="flex h-[calc(100vh-8rem)] flex-col justify-center gap-5 p-5">
         <h1 className="text-center text-4xl font-bold sm:text-6xl">
           <span className="text-primary">Simplify</span> and{" "}
           <span className="text-secondary">Organize</span>
@@ -17,6 +17,9 @@ const Home: NextPage = () => {
           <Clock />
         </div>
       </div>
+      {/* <div className="flex h-[calc(100vh-8rem)] flex-col justify-center gap-5 p-5">
+        Test
+      </div> */}
     </div>
   );
 };
