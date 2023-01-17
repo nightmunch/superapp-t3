@@ -17,9 +17,34 @@ const Home: NextPage = () => {
           <Clock />
         </div>
       </div>
-      {/* <div className="flex h-[calc(100vh-8rem)] flex-col justify-center gap-5 p-5">
-        Test
-      </div> */}
+      <div className="flex h-[calc(100vh-8rem)] flex-col justify-center gap-5 p-5">
+        <div className="flex basis-1/2 flex-col justify-center gap-2">
+          <h2 className="font-bold uppercase">Money Track</h2>
+          <h1 className="text-4xl font-bold text-primary">
+            Track Your Finance
+          </h1>
+          <p className="text-xl">
+            The app also features a user-friendly interface for tracking and
+            managing your finances. With clear and concise categories for income
+            and expenses, it&apos;s easy to stay on top of your spending and
+            budgeting. Plus, the ability to generate detailed reports and
+            analytics on your financial activity, makes it a great tool for
+            anyone looking to take control of their money and make informed
+            decisions.
+          </p>
+        </div>
+        <div className="flex basis-1/2 flex-col justify-center gap-2">
+          <h2 className="font-bold uppercase">Chef Burp</h2>
+          <h1 className="text-4xl font-bold text-primary">
+            Community-Based Recipe Platform
+          </h1>
+          <p className="text-xl">
+            Our recipe app is built on a strong community foundation. Users can
+            share and edit their own recipes, as well as rate the recipes
+            submitted by other users.
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
