@@ -3,7 +3,9 @@ import Image from "next/image";
 import { Typewriter } from "react-simple-typewriter";
 
 import { BsTerminal } from "react-icons/bs";
-import { FaRobot } from "react-icons/fa";
+import { FaGithub, FaRobot } from "react-icons/fa";
+import { FiExternalLink } from "react-icons/fi";
+import { AiOutlineFolder } from "react-icons/ai";
 
 const AboutMe2: NextPage = () => {
   return (
@@ -81,8 +83,51 @@ const AboutMe2: NextPage = () => {
           </div>
         </div>
       </div>
+      <div className="flex flex-col justify-center gap-10">
+        <h1 className="text-center text-xl font-bold text-primary">Projects</h1>
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+          <ProjectCard
+            github="https://github.com/nightmunch/superapp-t3"
+            link="https://superapp.nightmunch.com/"
+          />
+          {/* <ProjectCard />
+          <ProjectCard /> */}
+        </div>
+      </div>
     </div>
   );
 };
 
 export default AboutMe2;
+
+const ProjectCard = ({ github, link }: { github?: string; link?: string }) => {
+  return (
+    <div className="group flex flex-col gap-5 bg-base-200 p-5 transition hover:-translate-y-2">
+      <div className="flex items-center">
+        <AiOutlineFolder className="text-4xl text-secondary" />
+        <div className="grow"></div>
+        <div className="flex gap-2">
+          {github && (
+            <a href={github} title="Github">
+              <FaGithub className="text-xl hover:text-primary" />
+            </a>
+          )}
+          {link && (
+            <a href={github} title="External Link">
+              <FiExternalLink className="text-xl hover:text-primary" />
+            </a>
+          )}
+        </div>
+      </div>
+      <div className="flex flex-col gap-2">
+        <h1 className="text-lg font-bold group-hover:text-primary">SuperApp</h1>
+        <p className="text-sm text-base-content text-opacity-90">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur
+          at fugiat eius nesciunt, nam a veritatis ducimus officiis minus
+          quibusdam debitis consequatur facilis quod quas odio dolore non
+          tenetur dolorem.
+        </p>
+      </div>
+    </div>
+  );
+};
