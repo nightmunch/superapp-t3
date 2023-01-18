@@ -21,4 +21,10 @@ export const ProjectList: ProjectProps[] = [
     github: "https://github.com/nightmunch/digital-wedding-card",
     skills: ["Next.JS", "Typescript", "TailwindCSS", "Supabase"],
   },
+  {
+    title: "SAPS UI Enchancement",
+    description:
+      "Elevate old and dull SAPS website with better user experience",
+    skills: ["Next.JS", "Typescript", "TailwindCSS"],
+  },
 ];

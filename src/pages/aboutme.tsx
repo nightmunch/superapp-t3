@@ -130,7 +130,7 @@ const ProjectCard = ({
             </a>
           )}
           {link && (
-            <a href={github} title="External Link">
+            <a href={link} title="External Link">
               <FiExternalLink className="text-xl hover:text-primary" />
             </a>
           )}
