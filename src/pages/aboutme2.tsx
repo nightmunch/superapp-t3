@@ -8,7 +8,7 @@ import { FaRobot } from "react-icons/fa";
 const AboutMe2: NextPage = () => {
   return (
     <div className="mx-auto mt-5 flex max-w-3xl flex-col justify-center gap-10 px-5 sm:px-0">
-      <div className="flex flex-col sm:flex-row sm:gap-20 md:m-auto xl:w-1/2">
+      <div className="flex flex-col sm:flex-row sm:gap-20 md:m-auto">
         <div className="flex">
           <div className="my-auto">
             <h1 className="text-lg">Hello, I&apos;m</h1>
