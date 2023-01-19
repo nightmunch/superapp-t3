@@ -1,8 +1,10 @@
 import type { NextPage } from "next";
 import Clock from "../components/Clock";
 import LoopingBar from "../components/LoopingBar";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const Home: NextPage = () => {
+  const [parent] = useAutoAnimate<HTMLDivElement>();
   return (
     <div className="mx-auto mt-5 flex max-w-3xl flex-col justify-center">
       <div className="mt-[-5rem] flex h-screen flex-col justify-center gap-5 p-5">
@@ -13,7 +15,7 @@ const Home: NextPage = () => {
           <span className="whitespace-pre">All-in-One app</span>
         </h1>
         <LoopingBar />
-        <div className="flex justify-center">
+        <div ref={parent} className="flex justify-center">
           <Clock />
         </div>
       </div>
