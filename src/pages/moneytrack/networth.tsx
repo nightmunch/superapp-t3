@@ -283,7 +283,7 @@ const Table = ({
       <table className="table-zebra table w-full table-auto">
         <thead>
           <tr>
-            <td></td>
+            <td className="hidden sm:table-cell"></td>
             <td>Bank/Investment</td>
             <td className="hidden sm:table-cell">Amount</td>
             <td className="hidden sm:table-cell">Remarks</td>
@@ -306,7 +306,7 @@ const Table = ({
           ) : (
             data?.map((item, index) => (
               <tr key={item.id}>
-                <td>{index + 1}</td>
+                <td className="hidden sm:table-cell">{index + 1}</td>
                 <td
                   onClick={() => {
                     setSelectedID(item.id);
@@ -385,7 +385,7 @@ const Table = ({
           )}
           {sumBank ? (
             <tr>
-              <th></th>
+              <th className="hidden sm:table-cell"></th>
               <th
                 className="text-primary"
                 style={{
@@ -413,7 +413,7 @@ const Table = ({
           )}
           {sumInvestment ? (
             <tr>
-              <th></th>
+              <th className="hidden sm:table-cell"></th>
               <th
                 className="text-primary"
                 style={{
@@ -441,7 +441,7 @@ const Table = ({
           )}
           {sum ? (
             <tr>
-              <th></th>
+              <th className="hidden sm:table-cell"></th>
               <th className="text-primary">
                 <div className="flex flex-col">
                   <h1>Total</h1>
