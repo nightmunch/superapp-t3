@@ -285,8 +285,8 @@ const Table = ({
           <tr>
             <td></td>
             <td>Bank/Investment</td>
-            <td>Amount</td>
-            <td>Remarks</td>
+            <td className="hidden sm:table-cell">Amount</td>
+            <td className="hidden sm:table-cell">Remarks</td>
             <td className="text-center">Action</td>
           </tr>
         </thead>
@@ -334,6 +334,13 @@ const Table = ({
                     >
                       {item.category}
                     </div>
+                    <div className="block">
+                      <small className="text-primary">{item.remarks}</small>
+                    </div>
+                    <div className="divider m-0 sm:hidden"></div>
+                    <h2 className="text-xl font-semibold sm:hidden">
+                      RM {separator(item.amount.toFixed(2))}
+                    </h2>
                   </div>
                 </td>
                 <td
@@ -341,6 +348,7 @@ const Table = ({
                     setSelectedID(item.id);
                     setIsShow(true);
                   }}
+                  className="hidden sm:table-cell"
                 >
                   {item.currency == "RM"
                     ? `RM ${separator(item.amount.toFixed(2))}`
@@ -351,6 +359,7 @@ const Table = ({
                     setSelectedID(item.id);
                     setIsShow(true);
                   }}
+                  className="hidden sm:table-cell"
                 >
                   {item.remarks}
                 </td>
@@ -383,13 +392,16 @@ const Table = ({
                   }`,
                 }}
               >
-                Total Bank
+                <div className="flex flex-col">
+                  <h1>Total Bank</h1>
+                  <h2>RM {separator(sumBank.toFixed(2))}</h2>
+                </div>
               </th>
-              <th className="text-primary">
+              <th className="hidden text-primary sm:table-cell">
                 RM {separator(sumBank.toFixed(2))}
               </th>
-              <th></th>
-              <th></th>
+              <th className="hidden sm:table-cell"></th>
+              <th className="hidden sm:table-cell"></th>
             </tr>
           ) : (
             <></>
@@ -407,13 +419,16 @@ const Table = ({
                   }`,
                 }}
               >
-                Total Investment
+                <div className="flex flex-col">
+                  <h1>Total Investment</h1>
+                  <h2>RM {separator(sumInvestment.toFixed(2))}</h2>
+                </div>
               </th>
-              <th className="text-primary">
+              <th className="hidden text-primary sm:table-cell">
                 RM {separator(sumInvestment.toFixed(2))}
               </th>
-              <th></th>
-              <th></th>
+              <th className="hidden sm:table-cell"></th>
+              <th className="hidden sm:table-cell"></th>
             </tr>
           ) : (
             <></>
@@ -421,10 +436,17 @@ const Table = ({
           {sum ? (
             <tr>
               <th></th>
-              <th className="text-primary">Total</th>
-              <th className="text-primary">RM {separator(sum.toFixed(2))}</th>
-              <th></th>
-              <th></th>
+              <th className="text-primary">
+                <div className="flex flex-col">
+                  <h1>Total</h1>
+                  <h2>RM {separator(sum.toFixed(2))}</h2>
+                </div>
+              </th>
+              <th className="hidden text-primary sm:table-cell">
+                RM {separator(sum.toFixed(2))}
+              </th>
+              <th className="hidden sm:table-cell"></th>
+              <th className="hidden sm:table-cell"></th>
             </tr>
           ) : (
             <></>
