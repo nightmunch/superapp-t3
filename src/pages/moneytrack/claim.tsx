@@ -398,7 +398,7 @@ const Table = ({
                   </h1>
                 </div>
               </th>
-              <th className="inline-block sm:hidden"></th>
+              <th className="sm:hidden"></th>
               <th className="hidden text-primary sm:table-cell">
                 RM {separator(sum.toFixed(2))}
               </th>

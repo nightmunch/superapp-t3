@@ -339,7 +339,11 @@ const Table = ({
                     </div>
                     <div className="divider m-0 sm:hidden"></div>
                     <h2 className="text-xl font-semibold sm:hidden">
-                      RM {separator(item.amount.toFixed(2))}
+                      {item.currency == "RM"
+                        ? `RM ${separator(item.amount.toFixed(2))}`
+                        : `RM ${separator(
+                            (item.amount * price.eth).toFixed(2)
+                          )}`}
                     </h2>
                   </div>
                 </td>
@@ -397,6 +401,7 @@ const Table = ({
                   <h2>RM {separator(sumBank.toFixed(2))}</h2>
                 </div>
               </th>
+              <th className="sm:hidden"></th>
               <th className="hidden text-primary sm:table-cell">
                 RM {separator(sumBank.toFixed(2))}
               </th>
@@ -424,6 +429,7 @@ const Table = ({
                   <h2>RM {separator(sumInvestment.toFixed(2))}</h2>
                 </div>
               </th>
+              <th className="sm:hidden"></th>
               <th className="hidden text-primary sm:table-cell">
                 RM {separator(sumInvestment.toFixed(2))}
               </th>
@@ -442,6 +448,7 @@ const Table = ({
                   <h2>RM {separator(sum.toFixed(2))}</h2>
                 </div>
               </th>
+              <th className="sm:hidden"></th>
               <th className="hidden text-primary sm:table-cell">
                 RM {separator(sum.toFixed(2))}
               </th>
