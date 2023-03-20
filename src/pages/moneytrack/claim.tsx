@@ -314,8 +314,8 @@ const Table = ({
           <tr>
             <td></td>
             <td>Item</td>
-            <td>Amount</td>
-            <td>Date</td>
+            <td className="hidden sm:table-cell">Amount</td>
+            <td className="hidden sm:table-cell">Date</td>
             <td className="text-center">Action</td>
           </tr>
         </thead>
@@ -344,6 +344,13 @@ const Table = ({
                 >
                   <div className="flex flex-col">
                     <div className="pb-1">{item.item}</div>
+                    <div className="divider m-0 sm:hidden"></div>
+                    <h2 className="text-xl font-semibold text-error sm:hidden">
+                      - RM {separator(item.amount.toFixed(2))}
+                    </h2>
+                    <h2 className="text-xs text-primary sm:hidden">
+                      {formatDate(item.date)}
+                    </h2>
                   </div>
                 </td>
                 <td
@@ -351,6 +358,7 @@ const Table = ({
                     setSelectedID(item.id);
                     setIsShow(true);
                   }}
+                  className="hidden sm:table-cell"
                 >
                   RM {separator(item.amount.toFixed(2))}
                 </td>
@@ -359,6 +367,7 @@ const Table = ({
                     setSelectedID(item.id);
                     setIsShow(true);
                   }}
+                  className="hidden sm:table-cell"
                 >
                   {formatDate(item.date)}
                 </td>
@@ -381,10 +390,20 @@ const Table = ({
           {sum ? (
             <tr>
               <th></th>
-              <th className="text-primary">Total</th>
-              <th className="text-primary">RM {separator(sum.toFixed(2))}</th>
-              <th></th>
-              <th></th>
+              <th>
+                <div className="flex flex-col">
+                  <h1 className="text-primary">Total</h1>
+                  <h1 className="text-xl text-primary sm:hidden">
+                    RM {separator(sum.toFixed(2))}
+                  </h1>
+                </div>
+              </th>
+              <th className="inline-block sm:hidden"></th>
+              <th className="hidden text-primary sm:table-cell">
+                RM {separator(sum.toFixed(2))}
+              </th>
+              <th className="hidden sm:table-cell"></th>
+              <th className="hidden sm:table-cell"></th>
             </tr>
           ) : (
             <></>
