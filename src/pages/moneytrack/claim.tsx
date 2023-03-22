@@ -345,8 +345,8 @@ const Table = ({
                   <div className="flex flex-col">
                     <div className="pb-1">{item.item}</div>
                     <div className="divider m-0 sm:hidden"></div>
-                    <h2 className="text-xl font-semibold text-error sm:hidden">
-                      - RM {separator(item.amount.toFixed(2))}
+                    <h2 className="text-xl font-semibold sm:hidden">
+                      RM {separator(item.amount.toFixed(2))}
                     </h2>
                     <h2 className="text-xs text-primary sm:hidden">
                       {formatDate(item.date)}
