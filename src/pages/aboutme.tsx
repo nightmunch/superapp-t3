@@ -20,6 +20,7 @@ const AboutMe: NextPage = () => {
               <Typewriter
                 words={["Full Stack Developer", "Deep Learning Enthusiast"]}
                 loop={0}
+                cursor={true}
               />
             </h2>
             <h2 className="text-md">
