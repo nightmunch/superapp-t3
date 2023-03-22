@@ -123,9 +123,9 @@ const Navbar = ({
             }`}
             onClick={() => signOut({ redirect: false })}
           >
-            <div className="flex flex-col items-center gap-2 text-xs">
+            <div className="flex flex-col items-center gap-1 text-xs capitalize">
               <FaSignOutAlt />
-              {"Sign Out"}
+              {"Logout"}
             </div>
           </button>
         ) : (
@@ -135,9 +135,9 @@ const Navbar = ({
             }`}
             onClick={() => signIn("auth0")}
           >
-            <div className="flex flex-col items-center gap-2 text-xs">
+            <div className="flex flex-col items-center gap-1 text-xs capitalize">
               <FaSignInAlt />
-              {"Sign In"}
+              {"Login"}
             </div>
           </button>
         )}
