@@ -119,7 +119,7 @@ const Navbar = ({
         {sessionData ? (
           <button
             className={`btn-error btn ${
-              currentTheme == "shahrin" ? "btn-outline" : ""
+              currentTheme == "shahrin" ? "btn-outline" : "text-base-content"
             }`}
             onClick={() => signOut({ redirect: false })}
           >
@@ -131,7 +131,7 @@ const Navbar = ({
         ) : (
           <button
             className={`btn-success btn ${
-              currentTheme == "shahrin" ? "btn-outline" : ""
+              currentTheme == "shahrin" ? "btn-outline" : "text-base-content"
             }`}
             onClick={() => signIn("auth0")}
           >
