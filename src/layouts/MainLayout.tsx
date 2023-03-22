@@ -31,7 +31,14 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
   const [theme, setTheme] = useAtom(themeAtom);
 
   useEffect(() => {
-    setTheme(localStorage.getItem("theme") as string);
+    if (!localStorage.getItem("theme")) {
+      const isDarkMode = window.matchMedia(
+        "(prefers-color-scheme:dark)"
+      ).matches;
+      setTheme(isDarkMode ? "shahrin" : "aimi");
+    } else {
+      setTheme(localStorage.getItem("theme") as string);
+    }
     toast("Welcome to SuperApp! 🥳🎊", { duration: 2000 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
