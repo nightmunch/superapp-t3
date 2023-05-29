@@ -30,10 +30,10 @@ export const Table = ({
       <table className="table-zebra table w-full table-auto">
         <thead>
           <tr>
-            <td></td>
+            <td className="hidden sm:table-cell"></td>
             <td>Item</td>
-            <td>Amount</td>
-            <td>Date</td>
+            <td className="hidden sm:table-cell">Amount</td>
+            <td className="hidden sm:table-cell">Date</td>
             <td className="text-center">Action</td>
           </tr>
         </thead>
@@ -53,7 +53,7 @@ export const Table = ({
           ) : (
             data?.map((item, index) => (
               <tr key={item.id}>
-                <td>{index + 1}</td>
+                <td className="hidden sm:table-cell">{index + 1}</td>
                 <td
                   onClick={() => {
                     setSelectedID(item.id);
@@ -84,18 +84,26 @@ export const Table = ({
                     <div className="block">
                       <small className="text-primary">{item.remarks}</small>
                     </div>
+                    <div className="divider m-0 sm:hidden"></div>
+                    <h2 className="text-xl font-semibold text-error sm:hidden">
+                      - RM {separator(item.amount.toFixed(2))}
+                    </h2>
+                    <h2 className="text-xs text-primary sm:hidden">
+                      {formatDate(item.date)}
+                    </h2>
                   </div>
                 </td>
                 <td
-                  className="font-semibold text-error"
+                  className="hidden font-semibold text-error sm:table-cell"
                   onClick={() => {
                     setSelectedID(item.id);
                     setIsShow(true);
                   }}
                 >
-                  -RM {separator(item.amount.toFixed(2))}
+                  - RM {separator(item.amount.toFixed(2))}
                 </td>
                 <td
+                  className="hidden sm:table-cell"
                   onClick={() => {
                     setSelectedID(item.id);
                     setIsShow(true);
@@ -121,11 +129,21 @@ export const Table = ({
           )}
           {sum ? (
             <tr>
-              <th></th>
-              <th className="text-primary">Total</th>
-              <th className="text-primary">RM {separator(sum.toFixed(2))}</th>
-              <th></th>
-              <th></th>
+              <th className="hidden sm:table-cell"></th>
+              <th>
+                <div className="flex flex-col">
+                  <h1 className="text-primary">Total</h1>
+                  <h1 className="text-xl text-primary sm:hidden">
+                    RM {separator(sum.toFixed(2))}
+                  </h1>
+                </div>
+              </th>
+              <th className="sm:hidden"></th>
+              <th className="hidden text-primary sm:table-cell">
+                RM {separator(sum.toFixed(2))}
+              </th>
+              <th className="hidden sm:table-cell"></th>
+              <th className="hidden sm:table-cell"></th>
             </tr>
           ) : (
             <></>

@@ -283,10 +283,10 @@ const Table = ({
       <table className="table-zebra table w-full table-auto">
         <thead>
           <tr>
-            <td></td>
+            <td className="hidden sm:table-cell"></td>
             <td>Bank/Investment</td>
-            <td>Amount</td>
-            <td>Remarks</td>
+            <td className="hidden sm:table-cell">Amount</td>
+            <td className="hidden sm:table-cell">Remarks</td>
             <td className="text-center">Action</td>
           </tr>
         </thead>
@@ -306,7 +306,7 @@ const Table = ({
           ) : (
             data?.map((item, index) => (
               <tr key={item.id}>
-                <td>{index + 1}</td>
+                <td className="hidden sm:table-cell">{index + 1}</td>
                 <td
                   onClick={() => {
                     setSelectedID(item.id);
@@ -334,6 +334,17 @@ const Table = ({
                     >
                       {item.category}
                     </div>
+                    <div className="block">
+                      <small className="text-primary">{item.remarks}</small>
+                    </div>
+                    <div className="divider m-0 sm:hidden"></div>
+                    <h2 className="text-xl font-semibold sm:hidden">
+                      {item.currency == "RM"
+                        ? `RM ${separator(item.amount.toFixed(2))}`
+                        : `RM ${separator(
+                            (item.amount * price.eth).toFixed(2)
+                          )}`}
+                    </h2>
                   </div>
                 </td>
                 <td
@@ -341,6 +352,7 @@ const Table = ({
                     setSelectedID(item.id);
                     setIsShow(true);
                   }}
+                  className="hidden sm:table-cell"
                 >
                   {item.currency == "RM"
                     ? `RM ${separator(item.amount.toFixed(2))}`
@@ -351,6 +363,7 @@ const Table = ({
                     setSelectedID(item.id);
                     setIsShow(true);
                   }}
+                  className="hidden sm:table-cell"
                 >
                   {item.remarks}
                 </td>
@@ -372,7 +385,7 @@ const Table = ({
           )}
           {sumBank ? (
             <tr>
-              <th></th>
+              <th className="hidden sm:table-cell"></th>
               <th
                 className="text-primary"
                 style={{
@@ -383,20 +396,24 @@ const Table = ({
                   }`,
                 }}
               >
-                Total Bank
+                <div className="flex flex-col">
+                  <h1>Total Bank</h1>
+                  <h2>RM {separator(sumBank.toFixed(2))}</h2>
+                </div>
               </th>
-              <th className="text-primary">
+              <th className="sm:hidden"></th>
+              <th className="hidden text-primary sm:table-cell">
                 RM {separator(sumBank.toFixed(2))}
               </th>
-              <th></th>
-              <th></th>
+              <th className="hidden sm:table-cell"></th>
+              <th className="hidden sm:table-cell"></th>
             </tr>
           ) : (
             <></>
           )}
           {sumInvestment ? (
             <tr>
-              <th></th>
+              <th className="hidden sm:table-cell"></th>
               <th
                 className="text-primary"
                 style={{
@@ -407,24 +424,36 @@ const Table = ({
                   }`,
                 }}
               >
-                Total Investment
+                <div className="flex flex-col">
+                  <h1>Total Investment</h1>
+                  <h2>RM {separator(sumInvestment.toFixed(2))}</h2>
+                </div>
               </th>
-              <th className="text-primary">
+              <th className="sm:hidden"></th>
+              <th className="hidden text-primary sm:table-cell">
                 RM {separator(sumInvestment.toFixed(2))}
               </th>
-              <th></th>
-              <th></th>
+              <th className="hidden sm:table-cell"></th>
+              <th className="hidden sm:table-cell"></th>
             </tr>
           ) : (
             <></>
           )}
           {sum ? (
             <tr>
-              <th></th>
-              <th className="text-primary">Total</th>
-              <th className="text-primary">RM {separator(sum.toFixed(2))}</th>
-              <th></th>
-              <th></th>
+              <th className="hidden sm:table-cell"></th>
+              <th className="text-primary">
+                <div className="flex flex-col">
+                  <h1>Total</h1>
+                  <h2>RM {separator(sum.toFixed(2))}</h2>
+                </div>
+              </th>
+              <th className="sm:hidden"></th>
+              <th className="hidden text-primary sm:table-cell">
+                RM {separator(sum.toFixed(2))}
+              </th>
+              <th className="hidden sm:table-cell"></th>
+              <th className="hidden sm:table-cell"></th>
             </tr>
           ) : (
             <></>

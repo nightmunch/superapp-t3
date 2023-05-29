@@ -31,7 +31,14 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
   const [theme, setTheme] = useAtom(themeAtom);
 
   useEffect(() => {
-    setTheme(localStorage.getItem("theme") as string);
+    if (!localStorage.getItem("theme")) {
+      const isDarkMode = window.matchMedia(
+        "(prefers-color-scheme:dark)"
+      ).matches;
+      setTheme(isDarkMode ? "shahrin" : "aimi");
+    } else {
+      setTheme(localStorage.getItem("theme") as string);
+    }
     toast("Welcome to SuperApp! 🥳🎊", { duration: 2000 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -119,20 +126,26 @@ const Navbar = ({
         {sessionData ? (
           <button
             className={`btn-error btn ${
-              currentTheme == "shahrin" ? "btn-outline" : ""
+              currentTheme == "shahrin" ? "btn-outline" : "text-base-content"
             }`}
             onClick={() => signOut({ redirect: false })}
           >
-            <FaSignOutAlt />
+            <div className="flex flex-col items-center gap-1 text-xs capitalize">
+              <FaSignOutAlt />
+              {"Logout"}
+            </div>
           </button>
         ) : (
           <button
             className={`btn-success btn ${
-              currentTheme == "shahrin" ? "btn-outline" : ""
+              currentTheme == "shahrin" ? "btn-outline" : "text-base-content"
             }`}
             onClick={() => signIn("auth0")}
           >
-            <FaSignInAlt />
+            <div className="flex flex-col items-center gap-1 text-xs capitalize">
+              <FaSignInAlt />
+              {"Login"}
+            </div>
           </button>
         )}
       </div>

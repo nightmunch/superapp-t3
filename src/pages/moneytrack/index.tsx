@@ -13,6 +13,7 @@ const MoneyTrack: NextPage = () => {
   const { data: sessionData } = useSession();
 
   const currentMonth = new Date().getMonth() + 1;
+  const currentYear = new Date().getFullYear();
   const [selectedMonth, setSelectedMonth] = useState<number>(currentMonth);
   const summaries = trpc.transactions.summarybymonth.useQuery({
     userId: sessionData?.user?.id ?? "cl5qwgu6k0015zwv8jt19n94s",
@@ -44,7 +45,7 @@ const MoneyTrack: NextPage = () => {
             {summaries.data?.length !== 0 && summaries.data != undefined ? (
               <>
                 <h1 className="text-center">
-                  Transaction Summary {months[selectedMonth - 1]} 2022
+                  Transaction Summary {months[selectedMonth - 1]} {currentYear}
                 </h1>
                 <Doughnut data={summaries.data as DataProps[]} />
                 <SummaryTable

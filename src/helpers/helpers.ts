@@ -22,7 +22,8 @@ export const categories = [
   { category: "Bills", color: "#b961f4" },
   { category: "Healthcare", color: "#2a9d8f" },
   { category: "Groceries", color: "#8ec94f" },
-  { category: "Others", color: "#f4a261" },
+  { category: "Entertainment", color: "#f4a261" },
+  { category: "Others", color: "#adadad" },
 ];
 
 // Categories with Color
