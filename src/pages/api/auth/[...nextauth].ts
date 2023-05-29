@@ -1,5 +1,6 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import Auth0Provider from "next-auth/providers/auth0";
+import GoogleProvider from "next-auth/providers/google";
 // Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import type { User } from "@prisma/client";
@@ -26,6 +27,18 @@ export const authOptions: NextAuthOptions = {
       clientSecret: env.AUTH0_SECRET,
       issuer: env.AUTH0_ISSUER,
       authorization: `${env.AUTH0_ISSUER}/authorize?response_type=code&prompt=login`,
+      checks: "state",
+    }),
+    GoogleProvider({
+      clientId: env.GOOGLE_ID,
+      clientSecret: env.GOOGLE_SECRET,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
     }),
     // ...add more providers here
   ],

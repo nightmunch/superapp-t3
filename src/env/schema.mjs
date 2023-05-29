@@ -22,6 +22,8 @@ export const serverSchema = z.object({
   AUTH0_ID: z.string(),
   AUTH0_SECRET: z.string(),
   AUTH0_ISSUER: z.string(),
+  GOOGLE_ID: z.string(),
+  GOOGLE_SECRET: z.string(),
 });
 
 /**
