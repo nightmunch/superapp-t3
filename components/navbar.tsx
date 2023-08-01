@@ -4,6 +4,7 @@ import * as React from "react";
 import { ModeToggle } from "./theme-toggle";
 import { Button } from "./ui/button";
 import { BiMenu } from "react-icons/bi";
+import { CgLogIn, CgLogOut } from "react-icons/cg";
 
 import {
 	Sheet,
@@ -20,7 +21,7 @@ export function NavigationBar() {
 			<div className="flex-none">
 				<Sheet>
 					<SheetTrigger>
-						<Button variant={"outline"} size={"icon"}>
+						<Button variant={"ghost"} size={"icon"}>
 							<BiMenu className="h-[1.2rem] w-[1.2rem]" />
 						</Button>
 					</SheetTrigger>
@@ -34,8 +35,11 @@ export function NavigationBar() {
 					<span className="text-orange-400 dark:text-orange-300">Super</span>App
 				</h1>
 			</div>
-			<div className="flex-none">
+			<div className="flex-none gap-2 flex">
 				<ModeToggle />
+				<Button variant={"ghost"} size={"icon"}>
+					<CgLogIn className="h-[1.2rem] w-[1.2rem]" />
+				</Button>
 			</div>
 		</div>
 	);
